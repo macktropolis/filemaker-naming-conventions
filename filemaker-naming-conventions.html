@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FileMaker Naming Conventions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0f0f11;
+    --surface:    #16161a;
+    --surface2:   #1e1e24;
+    --border:     #2a2a35;
+    --border2:    #3a3a48;
+    --accent:     #7c6af5;
+    --accent2:    #c084fc;
+    --gold:       #f0b429;
+    --green:      #34d399;
+    --red:        #f87171;
+    --text:       #e8e8f0;
+    --text2:      #9999b3;
+    --text3:      #6666888;
+    --mono:       'IBM Plex Mono', monospace;
+    --sans:       'IBM Plex Sans', sans-serif;
+    --display:    'Playfair Display', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1;
+    padding: 80px 48px 64px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(160deg, #18182a 0%, var(--bg) 60%);
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute; top: -120px; right: -80px;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(124,106,245,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 16px;
+    max-width: 640px;
+  }
+
+  .hero p {
+    color: var(--text2);
+    font-size: 16px;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  .hero-meta {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 36px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: calc(100vh - 200px);
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: sticky; top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 40px 0 40px 32px;
+    border-right: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+
+  .nav-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 20px 0 8px;
+  }
+  .nav-label:first-child { padding-top: 0; }
+
+  .nav-item {
+    display: block;
+    padding: 7px 14px 7px 0;
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    border-right: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    line-height: 1.4;
+  }
+  .nav-item:hover { color: var(--text); }
+  .nav-item.active { color: var(--accent2); border-right-color: var(--accent2); }
+
+  .nav-sub {
+    padding-left: 12px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .nav-sub:hover { color: var(--text2); }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    padding: 48px 64px 100px;
+    max-width: 860px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 80px;
+  }
+
+  .section-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .section-title-wrap {}
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: 26px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  /* ── SUBSECTIONS ── */
+  h3 {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin: 36px 0 14px;
+  }
+  h3:first-of-type { margin-top: 0; }
+
+  p { color: var(--text2); margin-bottom: 14px; font-weight: 300; }
+  p strong { color: var(--text); font-weight: 500; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0 24px;
+  }
+
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .code-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  .code-dots { display: flex; gap: 6px; }
+  .code-dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border2);
+  }
+
+  pre {
+    padding: 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    overflow-x: auto;
+    tab-size: 4;
+  }
+
+  code { font-family: var(--mono); }
+
+  /* syntax highlights */
+  .c-comment { color: var(--text3); }
+  .c-key     { color: var(--accent2); }
+  .c-val     { color: var(--green); }
+  .c-op      { color: var(--gold); }
+  .c-bad     { color: var(--red); text-decoration: line-through; }
+  .c-good    { color: var(--green); }
+
+  /* ── INLINE CODE ── */
+  code:not(pre code) {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 12.5px;
+    color: var(--accent2);
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    padding: 10px 16px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-weight: 500;
+  }
+
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text2);
+  }
+  tr:last-child td { border-bottom: none; }
+
+  td:first-child {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  tr:hover td { background: rgba(255,255,255,0.015); }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    display: flex; gap: 14px;
+    padding: 16px 18px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 3px solid;
+  }
+
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 13.5px; color: var(--text2); }
+  .callout-body strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .callout.tip    { background: rgba(52,211,153,0.07); border-color: var(--green); }
+  .callout.warn   { background: rgba(240,180,41,0.07); border-color: var(--gold); }
+  .callout.danger { background: rgba(248,113,113,0.07); border-color: var(--red); }
+  .callout.info   { background: rgba(124,106,245,0.07); border-color: var(--accent); }
+
+  /* ── DEFINITION GRID ── */
+  .def-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0 24px;
+    font-size: 13px;
+  }
+
+  .def-key, .def-val {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .def-key:last-of-type, .def-val:last-child { border-bottom: none; }
+
+  .def-key {
+    background: var(--surface2);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent2);
+    border-right: 1px solid var(--border);
+    align-self: start;
+  }
+
+  .def-val { color: var(--text2); }
+
+  /* ── FLAG TABLE ── */
+  .flag-table td:first-child { font-size: 18px; letter-spacing: 0.1em; }
+
+  /* ── PATTERN GRID ── */
+  .pattern-list {
+    display: flex; flex-direction: column; gap: 8px;
+    margin: 16px 0 24px;
+  }
+
+  .pattern-row {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .pattern-code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--green);
+  }
+
+  .pattern-desc { font-size: 13px; color: var(--text2); }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  /* ── SCROLL TOP ── */
+  .to-top {
+    position: fixed; bottom: 32px; right: 32px; z-index: 100;
+    width: 40px; height: 40px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 16px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .to-top:hover { background: var(--surface); color: var(--text); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .wrapper { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; padding: 24px 24px 0; border-right: none; border-bottom: 1px solid var(--border); }
+    main { padding: 32px 24px 80px; max-width: 100%; }
+    .hero { padding: 48px 24px 40px; }
+    .def-grid { grid-template-columns: 1fr; }
+    .def-key { border-right: none; border-bottom: 1px solid var(--border); }
+    .pattern-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-eyebrow">Development Standards · v1.0 · 2026</div>
+  <h1>FileMaker Naming Conventions</h1>
+  <p>A unified reference for fields, tables, scripts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
+  <div class="hero-meta">
+    <span class="hero-badge"><span class="dot"></span> 5 Conventions</span>
+    <span class="hero-badge">Fields · Tables · Scripts · Objects · Styles</span>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="Page navigation">
+    <div class="nav-label">Conventions</div>
+    <a href="#fields"   class="nav-item">01 · Fields</a>
+    <a href="#tables"   class="nav-item">02 · Tables &amp; TOs</a>
+    <a href="#scripts"  class="nav-item">03 · Scripts</a>
+    <a href="#objects"  class="nav-item">04 · Layout Objects</a>
+    <a href="#styles"   class="nav-item">05 · Theme Styles</a>
+    <div class="nav-label">Quick Refs</div>
+    <a href="#fields-qr"  class="nav-item nav-sub">Field prefixes</a>
+    <a href="#tables-qr"  class="nav-item nav-sub">TO separators</a>
+    <a href="#scripts-qr" class="nav-item nav-sub">Script flags</a>
+    <a href="#objects-qr" class="nav-item nav-sub">Object patterns</a>
+    <a href="#styles-qr"  class="nav-item nav-sub">Style modifiers</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ══════════════════════════════════════════
+         01  FIELDS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="fields">
+      <div class="section-header">
+        <div class="section-icon">🗂</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 01</div>
+          <h2 class="section-title">Fields</h2>
+        </div>
+      </div>
+
+      <p>Standard business fields — things like <code>CustomerName</code> or <code>InvoiceDate</code> — carry <strong>no prefix</strong>. The <code>zz</code> prefix system is reserved exclusively for organizational, calculated, key, metadata, helper, and summary fields, pushing them below business fields when the field list is sorted alphabetically.</p>
+
+      <h3>Field Name Structure</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Anatomy</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">zz</span><span class="c-op">T</span><span class="c-op">__</span><span class="c-val">FieldName</span><span class="c-comment">_suffix</span>
+
+<span class="c-comment">zz        →  Pushes field to bottom when sorted alphabetically</span>
+<span class="c-comment">T         →  Single-character type code  (see table below)</span>
+<span class="c-comment">__        →  Visual separator between prefix and name</span>
+<span class="c-comment">FieldName →  PascalCase descriptive name</span>
+<span class="c-comment">_suffix   →  Optional type hint  (see suffix table below)</span></pre>
+      </div>
+
+      <h3>Type Codes</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Prefix</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>zzc__</td><td>Calculation</td><td>Computed values derived from other fields. Never edited directly.</td></tr>
+            <tr><td>zzg__</td><td>Global</td><td>Single value shared across all records. Used for filters, parameters, and UI state.</td></tr>
+            <tr><td>zzk__</td><td>Key</td><td>Primary and foreign key fields. The key type (<code>pk</code> / <code>fk</code>) sits between the prefix and name so foreign keys group together, with the primary key sorting last.</td></tr>
+            <tr><td>zzm__</td><td>Metadata / Audit</td><td>Record-level audit fields — creator, modifier, timestamps.</td></tr>
+            <tr><td>zzr__</td><td>Relationship Helper</td><td>Fields that exist solely to support a relationship or portal filter. No standalone business meaning.</td></tr>
+            <tr><td>zzs__</td><td>Summary</td><td>Aggregate values such as totals, counts, or averages across a found set.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Optional Suffixes</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Suffix</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>_ts</td><td>Timestamp</td><td>A date-and-time value. Common on audit fields.</td></tr>
+            <tr><td>_dt</td><td>Date</td><td>A date-only value where time is irrelevant.</td></tr>
+            <tr><td>_flag</td><td>Boolean</td><td>A binary true/false switch (typically 0 or 1).</td></tr>
+            <tr><td>_id</td><td>Key Reference</td><td>A non-key field that <em>holds</em> a key value — e.g. a global for portal filtering. Not used on actual key fields.</td></tr>
+            <tr><td>_pk</td><td>Primary Key</td><td>Marks the primary key. Placed between prefix and name: <code>zzk__pk_RecordID</code>. Only used with <code>zzk__</code>.</td></tr>
+            <tr><td>_fk</td><td>Foreign Key</td><td>Marks a foreign key. Placed between prefix and name: <code>zzk__fk_CustomerID</code>. Only used with <code>zzk__</code>.</td></tr>
+            <tr><td>_cnt</td><td>Count</td><td>A numeric field representing a count.</td></tr>
+            <tr><td>_r[n]</td><td>Repeating</td><td>A repeating field with <em>n</em> repetitions. Always placed last when combining: <code>zzg__SearchDate_dt_r10</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Key vs. Reference</strong>
+        <code>zzk__fk_CustomerID</code> is the actual foreign key field. <code>zzg__SelectedCustomer_id</code> is a global that <em>holds</em> a customer key value. <code>pk</code>/<code>fk</code> mean "this IS a key." <code>_id</code> means "this HOLDS a key value."</div>
+      </div>
+
+      <h3 id="fields-qr">Quick Reference</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field Name</th><th>Plain English</th></tr></thead>
+          <tbody>
+            <tr><td>zzk__pk_RecordID</td><td>Primary key — every table</td></tr>
+            <tr><td>zzk__fk_CustomerID</td><td>Foreign key to Customers</td></tr>
+            <tr><td>zzk__fk_InvoiceID</td><td>Foreign key to Invoices</td></tr>
+            <tr><td>zzc__FullName</td><td>Calculated full name</td></tr>
+            <tr><td>zzc__SalesTax</td><td>Calculated sales tax</td></tr>
+            <tr><td>zzg__CompanyName</td><td>Global company name</td></tr>
+            <tr><td>zzg__SelectedCustomer_id</td><td>Global holding a customer key value</td></tr>
+            <tr><td>zzg__Search_r20</td><td>Global repeating text field, 20 reps</td></tr>
+            <tr><td>zzg__SearchDate_dt_r10</td><td>Global repeating date field, 10 reps</td></tr>
+            <tr><td>zzm__CreatedBy</td><td>Audit: record creator</td></tr>
+            <tr><td>zzm__CreatedOn_ts</td><td>Audit: creation timestamp</td></tr>
+            <tr><td>zzm__ModifiedBy</td><td>Audit: last modifier</td></tr>
+            <tr><td>zzm__ModifiedOn_ts</td><td>Audit: modification timestamp</td></tr>
+            <tr><td>zzr__ShowAll</td><td>Relationship helper: show-all portal</td></tr>
+            <tr><td>zzs__TotalRevenue</td><td>Summary: total revenue</td></tr>
+            <tr><td>zzs__InvoiceCount_cnt</td><td>Summary: invoice count</td></tr>
+            <tr><td>IsDeleted_flag</td><td>Business boolean (no prefix needed)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         02  TABLES & TOs
+    ══════════════════════════════════════════ -->
+    <section class="section" id="tables">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 02</div>
+          <h2 class="section-title">Tables &amp; Table Occurrences</h2>
+        </div>
+      </div>
+
+      <p>This convention follows the <strong>Anchor-Buoy methodology</strong>. Base table names are clean, context-free PascalCase nouns. Table occurrence (TO) names encode the full relationship path from the anchor, making any TO self-describing in isolation.</p>
+
+      <h3>Base Tables</h3>
+      <p>PascalCase singular nouns. No prefixes, no context.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Base Table Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Customer</span>       <span class="c-val">Invoice</span>        <span class="c-val">Product</span>
+<span class="c-val">LineItem</span>       <span class="c-val">Contact</span>        <span class="c-val">SalesRep</span></pre>
+      </div>
+
+      <h3>Anchor TOs</h3>
+      <p>Prefixed with a single underscore (<code>_</code>). This makes them immediately visually distinct in the Relationships panel.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Anchor TOs</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">_Customer</span>      <span class="c-key">_Invoice</span>
+<span class="c-key">_Project</span>       <span class="c-key">_PurchaseOrder</span></pre>
+      </div>
+
+      <h3>Buoy TOs</h3>
+      <p>The anchor is always re-stated at the start, followed by the relationship path.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Hops</th><th>Pattern</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Anchor</td><td><code>_TableName</code></td><td><code>_Customer</code></td></tr>
+            <tr><td>1 hop</td><td><code>_Anchor__Table</code></td><td><code>_Customer__Invoice</code></td></tr>
+            <tr><td>2 hops</td><td><code>_Anchor__Table_Table</code></td><td><code>_Customer__Invoice_LineItem</code></td></tr>
+            <tr><td>3 hops</td><td><code>_Anchor__Table_Table_Table</code></td><td><code>_Customer__Invoice_LineItem_Product</code></td></tr>
+            <tr><td>Role</td><td><code>_Anchor__Table.Role</code></td><td><code>_Customer__Contact.Billing</code></td></tr>
+            <tr><td>External</td><td><code>_Anchor__@SourceTable</code></td><td><code>_Reference__@MediaDocuments</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="tables-qr">Separator Reference</h3>
+      <div class="def-grid">
+        <div class="def-key">_ (prefix)</div><div class="def-val">Marks an anchor TO — <code>_Customer</code></div>
+        <div class="def-key">__ (double)</div><div class="def-val">Separates anchor from buoy chain — <code>_Customer__Invoice</code></div>
+        <div class="def-key">_ (internal)</div><div class="def-val">Separates hops in the buoy chain — <code>_Customer__Invoice_LineItem</code></div>
+        <div class="def-key">.</div><div class="def-val">Role disambiguation — <code>_Customer__Contact.Billing</code></div>
+        <div class="def-key">@</div><div class="def-val">Marks external source + table as one token — <code>_Reference__@MediaDocuments</code></div>
+      </div>
+
+      <h3>Example Graphs</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Customer Graph</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">_Customer</span>
+<span class="c-val">_Customer__Invoice</span>
+<span class="c-val">_Customer__Invoice_LineItem</span>
+<span class="c-val">_Customer__Invoice_LineItem_Product</span>
+<span class="c-val">_Customer__Contact.Primary</span>
+<span class="c-val">_Customer__Contact.Billing</span>
+<span class="c-val">_Customer__SalesRep</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">PurchaseOrder Graph (with external table)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">_PurchaseOrder</span>
+<span class="c-val">_PurchaseOrder__Vendor</span>
+<span class="c-val">_PurchaseOrder__Vendor_Contact.Primary</span>
+<span class="c-val">_PurchaseOrder__LineItem</span>
+<span class="c-val">_PurchaseOrder__LineItem_Product</span>
+<span class="c-val">_PurchaseOrder__Receipt</span>
+<span class="c-val">_PurchaseOrder__Receipt_@WarehouseLineItem</span>   <span class="c-comment">← external source</span></pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body"><strong>Quick Diagnostic</strong>
+        Everything before <code>__</code> tells you the anchor. Everything after, split on single <code>_</code>, gives you the relationship path. A name starting with <code>_</code> and containing no <code>__</code> is an anchor TO. A segment starting with <code>@</code> is an external table.</div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         03  SCRIPTS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="scripts">
+      <div class="section-header">
+        <div class="section-icon">⚙️</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 03</div>
+          <h2 class="section-title">Scripts</h2>
+        </div>
+      </div>
+
+      <p><strong>Core principle:</strong> Names tell you <em>what</em> and <em>where</em>. Headers tell you <em>how</em>. Parameters are JSON-keyed objects documented in the header block — never encoded in the name.</p>
+
+      <h3>Script Name Formula</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Anatomy</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-comment">[ Module ]  [ Flag ]  Verb  Noun  – Qualifier</span>
+
+<span class="c-val">[Startup]</span> <span class="c-op">!!</span> <span class="c-key">Initialize</span> System Vars
+<span class="c-val">[Projects]</span> <span class="c-op">&gt;</span> <span class="c-key">Create</span> – Edit Project
+<span class="c-val">[Triggers]</span> <span class="c-op">&lt;</span> <span class="c-key">OnLayoutEnter</span>
+<span class="c-val">[UI]</span> <span class="c-op">_</span> <span class="c-key">Refresh</span> Portal Filter – v2
+<span class="c-val">[Utility]</span> <span class="c-op">__</span> <span class="c-key">Reset</span> Data Entry Fields – Loop
+<span class="c-val">[Utility]</span> <span class="c-key">Close</span> Popover              <span class="c-comment">← no flag = public utility</span></pre>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>Formatting Rules</strong>
+        Use Title Case throughout — never ALL-CAPS verbs. The module tag must match the folder name exactly. Qualifiers use an em-dash (–) with one space each side, never a hyphen or slash. Never encode parameters in the script name.</div>
+      </div>
+
+      <h3 id="scripts-qr">Prefix Flags</h3>
+      <div class="table-wrap flag-table">
+        <table>
+          <thead><tr><th>Flag</th><th>Name</th><th>Caller Rule</th></tr></thead>
+          <tbody>
+            <tr><td>!!</td><td>Setup / Init</td><td>Startup script or module entry point only.</td></tr>
+            <tr><td>&gt;</td><td>Entry Point</td><td>Buttons or triggers only. Other scripts must never call it mid-workflow.</td></tr>
+            <tr><td>&lt;</td><td>Callback</td><td>FileMaker trigger system or dynamic Perform Script only.</td></tr>
+            <tr><td>_</td><td>Private</td><td>This module only. Must never appear in a button's Perform Script.</td></tr>
+            <tr><td>__</td><td>Subroutine</td><td>One parent script only.</td></tr>
+            <tr><td>~</td><td>Deprecated</td><td>Existing callers only. Header must note the replacement and removal date.</td></tr>
+            <tr><td>?</td><td>Experimental</td><td>Developer only. Must not exist in a production file.</td></tr>
+            <tr><td>(none)</td><td>Public Utility</td><td>Anyone. Fully reusable across modules.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>How to Choose a Flag</h3>
+      <p>Ask: <em>"What initiates this script?"</em></p>
+      <div class="def-grid">
+        <div class="def-key">User action</div><div class="def-val">Button click, menu item, keyboard shortcut → <code>&gt;</code> Entry Point</div>
+        <div class="def-key">Script trigger</div><div class="def-val">OnLayoutEnter, OnRecordLoad, OnObjectEnter → <code>&lt;</code> Callback</div>
+        <div class="def-key">Another script</div><div class="def-val">Internal, same module → <code>_</code> Private (or <code>__</code> if one parent only)</div>
+        <div class="def-key">FileMaker itself</div><div class="def-val">On file open, close, or first launch → <code>!!</code> Setup / Init</div>
+        <div class="def-key">Any of the above</div><div class="def-val">Genuinely reusable across contexts → <code>(none)</code> Public Utility</div>
+      </div>
+
+      <h3>Approved Verb List</h3>
+      <p>All script verbs must come from this list. Never use a synonym and leave it undocumented. To add a new verb, update the standard first.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Data Operations</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">Create</span>  <span class="c-key">Update</span>  <span class="c-key">Delete</span>  <span class="c-key">Get</span>      <span class="c-key">Set</span>      <span class="c-key">Save</span>
+<span class="c-key">Validate</span> <span class="c-key">Import</span>  <span class="c-key">Export</span>  <span class="c-key">Copy</span>     <span class="c-key">Retrieve</span> <span class="c-key">Select</span>
+<span class="c-key">Sort</span>    <span class="c-key">Empty</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">UI & Navigation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">Navigate</span> <span class="c-key">Open</span>    <span class="c-key">Close</span>   <span class="c-key">Show</span>    <span class="c-key">Hide</span>    <span class="c-key">Toggle</span>
+<span class="c-key">Refresh</span>  <span class="c-key">Resize</span>  <span class="c-key">Maximize</span> <span class="c-key">Rename</span> <span class="c-key">Print</span>   <span class="c-key">Send</span>
+<span class="c-key">Zoom</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Process & Lifecycle</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">Initialize</span> <span class="c-key">Process</span>  <span class="c-key">Format</span>  <span class="c-key">Reset</span>     <span class="c-key">Clear</span>  <span class="c-key">Undo</span>
+<span class="c-key">Handle</span>     <span class="c-key">Evaluate</span> <span class="c-key">Assign</span>  <span class="c-key">Ping</span>      <span class="c-key">Resequence</span>
+<span class="c-key">Capture</span>    <span class="c-key">Mark</span>     <span class="c-key">Perform</span></pre>
+      </div>
+      <div class="callout danger">
+        <div class="callout-icon">🚫</div>
+        <div class="callout-body"><strong>Deprecated — Do Not Use</strong>
+        <code>GO TO</code> → use <code>Navigate</code> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <code>Get</code> or <code>Retrieve</code> &nbsp;|&nbsp; <code>Display</code> → use <code>Show</code> &nbsp;|&nbsp; <code>RUN</code> → use <code>Process</code> or <code>Perform</code> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
+      </div>
+
+      <h3>Qualifier Types</h3>
+      <p>Qualifiers follow an em-dash (–) with one space each side. Types: <strong>Context/Trigger</strong> (– On Create, – On Login), <strong>Method</strong> (– By Direction, – As JSON), <strong>Scope</strong> (– Server Side, – PSoS), <strong>Condition</strong> (– Loop, – If Empty), <strong>Version</strong> (– v2, – Legacy), and <strong>Combined Operation</strong> (Create – Edit, Open – Initialize).</p>
+
+      <h3>Script Header Block</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Header Template</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-comment"># ─────────────────────────────────────────────────────────</span>
+<span class="c-comment"># SCRIPT   : [Invoice] &gt; Create – Edit Invoice</span>
+<span class="c-comment"># PURPOSE  : Opens the Invoice form. Creates a new record if</span>
+<span class="c-comment">#            none exists, or edits the current record.</span>
+<span class="c-comment"># ──────────────</span>
+<span class="c-comment"># PARAMS   : invoiceID     | Text | ID of record to edit (empty = create new)</span>
+<span class="c-comment">#            clientID      | Text | Pre-fill client on new record (optional)</span>
+<span class="c-comment">#            returnLayout  | Text | Layout to return to on close</span>
+<span class="c-comment"># ──────────────</span>
+<span class="c-comment"># RETURNS  : $result = "success" | "error: &lt;message&gt;"</span>
+<span class="c-comment"># ──────────────</span>
+<span class="c-comment"># CALLED BY: Button – Invoice List &gt; New Invoice</span>
+<span class="c-comment">#            Button – Client Detail &gt; Add Invoice</span>
+<span class="c-comment"># ──────────────</span>
+<span class="c-comment"># MODIFIED : 2026-03-23 | JD | Initial build</span>
+<span class="c-comment">#            2026-04-01 | SR | Added returnLayout param</span>
+<span class="c-comment"># ─────────────────────────────────────────────────────────</span></pre>
+      </div>
+
+      <h3>Naming Anti-Patterns</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Anti-Pattern</th><th>Before</th><th>After</th></tr></thead>
+          <tbody>
+            <tr><td>ALL-CAPS verbs</td><td><code>CREATE</code></td><td><code>Create</code></td></tr>
+            <tr><td>CREATE / EDIT slash</td><td><code>CREATE / EDIT Project</code></td><td><code>[Projects] &gt; Create – Edit Project</code></td></tr>
+            <tr><td>GO TO</td><td><code>GO TO Layout</code></td><td><code>[Module] Navigate To Layout</code></td></tr>
+            <tr><td>Bracket params</td><td><code>RESET Fields [LOOP]</code></td><td><code>[Module] __ Reset Fields – Loop</code></td></tr>
+            <tr><td>Noun-only names</td><td><code>Dev Docs</code></td><td><code>[Dev] &gt; Open Dev Docs</code></td></tr>
+            <tr><td>Trigger without flag</td><td><code>OnLayoutEnter</code></td><td><code>[Triggers] &lt; OnLayoutEnter</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Exemptions</strong>
+        The <strong>Scripts Menu folder</strong> is fully exempt — names there are user-facing and should be natural-language. Add-on scripts are exempt from module tagging but custom scripts added to an add-on folder follow the convention.</div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         04  LAYOUT OBJECTS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="objects">
+      <div class="section-header">
+        <div class="section-icon">🎛</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 04</div>
+          <h2 class="section-title">Layout Objects</h2>
+        </div>
+      </div>
+
+      <p>Object names follow a <strong>BEM-adapted</strong> methodology. Because FileMaker requires all object names to be unique (like CSS IDs, not classes), every name must be fully descriptive in isolation.</p>
+
+      <h3>Core Syntax</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">BEM Structure</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">block</span><span class="c-op">__</span><span class="c-val">element</span><span class="c-op">--</span><span class="c-comment">modifier</span>
+
+<span class="c-comment">block    →  Parent container or logical group  (sidebar, modal, record-card)</span>
+<span class="c-comment">element  →  Component living inside the block  (title, divider, button)</span>
+<span class="c-comment">modifier →  Variant, state, or disambiguator   (active, primary, 1)</span>
+
+All segments <span class="c-key">lowercase</span>. Words within a segment separated by a single hyphen.
+
+<span class="c-good">✓  nav-bar__menu-item--active</span>
+<span class="c-bad">✗  NavBar__MenuItem--Active</span>
+<span class="c-bad">✗  nav_bar__menu_item--active</span></pre>
+      </div>
+
+      <h3>Blocks</h3>
+      <p>A block is a standalone, self-contained section of a layout. Name objects belonging to a block using that block name as the prefix. Do not nest block names — if nesting seems necessary, consider giving the inner group its own block name.</p>
+
+      <h3>Elements</h3>
+      <p>An element belongs to and only makes sense inside its block. Use names that describe <em>purpose or role</em>, not appearance.</p>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">Prefer <code>sidebar__divider</code> (describes role) over <code>sidebar__gray-line</code> (describes appearance). Appearance-based names break when the design changes.</div>
+      </div>
+
+      <h3>Semantic vs. Instance Modifiers</h3>
+      <p>When multiple identical objects share the same block and element name, choose between a semantic modifier or a numeric instance modifier.</p>
+      <div class="def-grid">
+        <div class="def-key">Semantic</div><div class="def-val">Objects differ in purpose, position, or behavior → <code>sidebar__divider--top</code>, <code>sidebar__divider--footer</code></div>
+        <div class="def-key">Instance</div><div class="def-val">Objects are functionally identical → <code>sidebar__divider--1</code>, <code>sidebar__divider--2</code></div>
+      </div>
+      <p>Do not mix semantic and instance modifiers on the same element type within a block. Choose one approach and apply it consistently.</p>
+
+      <h3 id="objects-qr">Quick Reference</h3>
+      <div class="pattern-list">
+        <div class="pattern-row"><div class="pattern-code">sidebar</div><div class="pattern-desc">Block — standalone container or group</div></div>
+        <div class="pattern-row"><div class="pattern-code">sidebar--collapsed</div><div class="pattern-desc">Block with modifier — variant of the block itself</div></div>
+        <div class="pattern-row"><div class="pattern-code">sidebar__title</div><div class="pattern-desc">Block + element — belongs to the sidebar block</div></div>
+        <div class="pattern-row"><div class="pattern-code">sidebar__divider--top</div><div class="pattern-desc">Block + element + semantic modifier</div></div>
+        <div class="pattern-row"><div class="pattern-code">sidebar__divider--1</div><div class="pattern-desc">Block + element + instance modifier (identical objects)</div></div>
+        <div class="pattern-row"><div class="pattern-code">overlay</div><div class="pattern-desc">Standalone non-grouped object</div></div>
+      </div>
+
+      <h3>Full Example — Sidebar</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Sidebar Layout Group</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">sidebar</span>                        <span class="c-comment">← container/group object</span>
+<span class="c-val">sidebar__title</span>                 <span class="c-comment">← text: group heading</span>
+<span class="c-val">sidebar__divider--1</span>            <span class="c-comment">← shape: first divider (no semantic distinction)</span>
+<span class="c-val">sidebar__divider--2</span>            <span class="c-comment">← shape: second divider</span>
+<span class="c-val">sidebar__nav-item--reports</span>     <span class="c-comment">← button: navigates to reports</span>
+<span class="c-val">sidebar__nav-item--dashboard</span>   <span class="c-comment">← button: navigates to dashboard</span>
+<span class="c-val">sidebar__nav-item--settings</span>    <span class="c-comment">← button: navigates to settings</span>
+<span class="c-val">sidebar__footer-label</span>          <span class="c-comment">← text: version or user info</span></pre>
+      </div>
+
+      <h3>Rules Summary</h3>
+      <p>1. All names lowercase with hyphens as word separators. 2. Double underscores separate block from element. 3. Double hyphens separate element from modifier. 4. Do not exceed two levels (block__element). 5. Prefer semantic modifiers when a meaningful distinction exists. 6. Use instance modifiers only for functionally identical objects. 7. Document block vocabulary in a reference sheet to keep names consistent across layouts.</p>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         05  THEME STYLES
+    ══════════════════════════════════════════ -->
+    <section class="section" id="styles">
+      <div class="section-header">
+        <div class="section-icon">🎨</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 05</div>
+          <h2 class="section-title">Theme Styles</h2>
+        </div>
+      </div>
+
+      <p>Theme style names adapt BEM principles for FileMaker's Inspector panel. Every name should communicate what it is, where or how it is used, and any variant or state — at a glance.</p>
+
+      <h3>Structure &amp; Separators</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Syntax</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">block</span><span class="c-op">__</span><span class="c-val">element</span><span class="c-op">--</span><span class="c-comment">modifier</span>
+
+<span class="c-comment">-    single hyphen    →  joins words within a segment</span>
+<span class="c-comment">__   double underscore →  separates block from element</span>
+<span class="c-comment">--   double hyphen    →  separates block/element from modifier</span>
+
+<span class="c-val">prt__leading-grand-summary--brand</span>
+ <span class="c-comment">│            │                  └── modifier</span>
+ <span class="c-comment">│            └── element (multi-word, joined by -)</span>
+ <span class="c-comment">└── block</span></pre>
+      </div>
+
+      <h3>Block Vocabulary</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>txt</td><td>Typography / text styles</td></tr>
+            <tr><td>btn</td><td>Buttons</td></tr>
+            <tr><td>field</td><td>Input fields and controls</td></tr>
+            <tr><td>portal</td><td>Portal containers</td></tr>
+            <tr><td>card</td><td>Containers and panels</td></tr>
+            <tr><td>nav</td><td>Navigation elements</td></tr>
+            <tr><td>bg</td><td>Layout backgrounds</td></tr>
+            <tr><td>prt</td><td>Layout parts</td></tr>
+            <tr><td>badge</td><td>Tags and status indicators</td></tr>
+            <tr><td>icon</td><td>Icon-adjacent styles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="styles-qr">Standard Modifier Vocabulary</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Modifier</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>--brand</td><td>Primary brand color</td></tr>
+            <tr><td>--brand-alt</td><td>Secondary brand tone (not <code>--brand--alt</code>)</td></tr>
+            <tr><td>--accent</td><td>Accent or highlight color</td></tr>
+            <tr><td>--light / --dark / --neutral / --muted</td><td>Tonal variants</td></tr>
+            <tr><td>--alt</td><td>Alternate variant (e.g. zebra row)</td></tr>
+            <tr><td>--success / --warning / --error</td><td>Status colors</td></tr>
+            <tr><td>--sm / --lg</td><td>Size variants</td></tr>
+            <tr><td>--right / --center</td><td>Text alignment</td></tr>
+            <tr><td>--active / --disabled / --readonly / --focus</td><td>States</td></tr>
+            <tr><td>--ruled</td><td>Has row borders or dividing lines</td></tr>
+            <tr><td>--no-border</td><td>All borders removed</td></tr>
+            <tr><td>--no-border-top / --no-border-bottom</td><td>Specific border removal</td></tr>
+            <tr><td>--no-border-x / --no-border-y</td><td>Axis-level border removal</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-icon">🚫</div>
+        <div class="callout-body"><strong>Avoid Double Modifiers</strong>
+        <code>bg--brand--alt</code> uses <code>--</code> twice, breaking the separator hierarchy. Flatten instead: <code>bg--brand-alt</code>. The single hyphen within the modifier is the correct pattern.</div>
+      </div>
+
+      <h3>Examples by Category</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Typography (txt)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">txt</span>                        <span class="c-comment">← base body text</span>
+<span class="c-val">txt--muted</span>                 <span class="c-comment">← subdued color</span>
+<span class="c-val">txt__label</span>                 <span class="c-comment">← field label</span>
+<span class="c-val">txt__label--required</span>       <span class="c-comment">← label with required indicator</span>
+<span class="c-val">txt__heading</span>               <span class="c-comment">← section heading</span>
+<span class="c-val">txt__section-title--muted</span>  <span class="c-comment">← muted section title</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Layout Parts (prt)</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">prt__title-bar</span>
+<span class="c-val">prt__title-bar--brand</span>
+<span class="c-val">prt__header</span>
+<span class="c-val">prt__header--brand</span>
+<span class="c-val">prt__header--no-border-bottom</span>
+<span class="c-val">prt__leading-grand-summary--brand</span>
+<span class="c-val">prt__body</span>
+<span class="c-val">prt__body--alt</span>
+<span class="c-val">prt__footer--no-border-top</span>
+<span class="c-val">prt__nav-bar--brand</span></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Portals</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">portal</span>                     <span class="c-comment">← base portal</span>
+<span class="c-val">portal--ruled</span>              <span class="c-comment">← portal with row borders</span>
+<span class="c-val">portal__row</span>                <span class="c-comment">← base row</span>
+<span class="c-val">portal__row--alt</span>           <span class="c-comment">← zebra stripe</span>
+<span class="c-val">portal__row--ruled-alt</span>     <span class="c-comment">← border + alternate fill (flattened modifier)</span>
+<span class="c-val">portal__row--no-border</span>     <span class="c-comment">← all borders removed</span></pre>
+      </div>
+
+      <h3>Naming Principles</h3>
+      <p><strong>1. Name for role, not appearance.</strong> Prefer <code>--muted</code> over <code>--gray</code>, and <code>--brand</code> over <code>--blue</code>, so names survive a color theme change.</p>
+      <p><strong>2. Keep block names short.</strong> <code>txt</code>, <code>btn</code>, <code>prt</code> are easy to scan. Avoid full words where the abbreviation is unambiguous in your system.</p>
+      <p><strong>3. Depth limit: block__element--modifier only.</strong> Do not go beyond three segments. <code>prt__leading-grand-summary--brand</code> is acceptable. <code>prt__header__label--brand--active</code> is too deep.</p>
+      <p><strong>4. One modifier per <code>--</code> separator.</strong> Flatten compound modifiers with a single hyphen: <code>--ruled-alt</code>, not <code>--ruled--alt</code>.</p>
+      <p><strong>5. Document your vocabulary.</strong> Maintain a reference list of approved blocks, elements, and modifiers so the convention stays consistent as the theme grows.</p>
+    </section>
+
+  </main>
+</div>
+
+<a href="#top" class="to-top" aria-label="Back to top">↑</a>
+
+<script>
+  // Active nav highlighting
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const id = entry.target.id;
+        const match = document.querySelector(`.nav-item[href="#${id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
