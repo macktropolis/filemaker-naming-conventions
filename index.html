@@ -448,10 +448,10 @@
 <header class="hero" id="top">
   <div class="hero-eyebrow">Development Standards · v1.0 · 2026</div>
   <h1>FileMaker Naming Conventions</h1>
-  <p>A unified reference for fields, tables, scripts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
+  <p>A unified reference for fields, tables, scripts, layouts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
   <div class="hero-meta">
-    <span class="hero-badge"><span class="dot"></span> 5 Conventions</span>
-    <span class="hero-badge">Fields · Tables · Scripts · Objects · Styles</span>
+    <span class="hero-badge"><span class="dot"></span> 6 Conventions</span>
+    <span class="hero-badge">Fields · Tables · Scripts · Layouts · Objects · Styles</span>
   </div>
 </header>
 
@@ -469,6 +469,7 @@
     <a href="#fields-qr"  class="nav-item nav-sub">Field prefixes</a>
     <a href="#tables-qr"  class="nav-item nav-sub">TO separators</a>
     <a href="#scripts-qr" class="nav-item nav-sub">Script flags</a>
+    <a href="#layouts-qr" class="nav-item nav-sub">Layout patterns</a>
     <a href="#objects-qr" class="nav-item nav-sub">Object patterns</a>
     <a href="#styles-qr"  class="nav-item nav-sub">Style modifiers</a>
   </nav>
@@ -788,11 +789,129 @@
     <!-- ══════════════════════════════════════════
          04  LAYOUT OBJECTS
     ══════════════════════════════════════════ -->
-    <section class="section" id="objects">
+    
+    <!-- ══════════════════════════════════════════
+         04 LAYOUTS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="layouts">
+      <div class="section-header">
+        <div class="section-icon">📐</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 04</div>
+          <h2 class="section-title">Layouts</h2>
+        </div>
+      </div>
+      <p>Layout names follow a three-part structure that makes every layout self-describing at a glance. The <strong>Context</strong> groups related layouts together. The <strong>Purpose</strong> describes what the layout does. The optional <strong>Variant</strong> qualifies layouts that need further distinction.</p>
+      <h3>Layout Name Structure</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Anatomy</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">Context</span> <span class="c-op">|</span> <span class="c-val">Purpose</span> <span class="c-op">—</span> <span class="c-comment">Variant</span>
+
+<span class="c-comment">Context  →  The primary table or subject area the layout serves</span>
+<span class="c-comment">Purpose  →  What the layout does or what type it is</span>
+<span class="c-comment">Variant  →  Optional qualifier when further distinction is needed</span>
+
+<span class="c-comment">|  (pipe)    →  Separates Context from Purpose</span>
+<span class="c-comment">—  (em dash) →  Separates Purpose from Variant</span></pre>
+      </div>
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Keep It Lean</strong> Omit the Variant when no qualifier is needed. When a Variant does appear, it signals something meaningful — not decorative structure.</div>
+      </div>
+      <h3>Standard Layouts</h3>
+      <p>Everyday detail and list layouts use a plain <code>Context | Purpose</code> name.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Standard Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Contacts | Detail</span>
+<span class="c-val">Contacts | List</span>
+<span class="c-val">Contacts | New Record</span>
+
+<span class="c-val">Invoices | Detail</span>
+<span class="c-val">Invoices | List</span>
+
+<span class="c-val">Products | Detail</span>
+<span class="c-val">Products | List</span></pre>
+      </div>
+      <h3>Print Layouts</h3>
+      <p>Use <code>Print</code> as the Purpose. The Variant distinguishes between different print formats for the same subject.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Print Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Contacts | Print — Label</span>
+<span class="c-val">Contacts | Print — Full Record</span>
+<span class="c-val">Contacts | Print — Summary</span>
+
+<span class="c-val">Invoices | Print — Standard</span>
+<span class="c-val">Invoices | Print — Detailed</span>
+<span class="c-val">Invoices | Print — Packing Slip</span></pre>
+      </div>
+      <h3>Card Windows</h3>
+      <p>Always use <code>Card</code> as the Purpose — this instantly signals to any developer that the layout is designed for a card window. Use the Variant to describe the job the card performs, not how it is triggered.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Card Window Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Contacts | Card — Quick Edit</span>
+<span class="c-val">Contacts | Card — New Record</span>
+<span class="c-val">Contacts | Card — Merge Preview</span>
+
+<span class="c-val">Invoices | Card — Add Line Item</span>
+<span class="c-val">Invoices | Card — Send Confirmation</span>
+
+<span class="c-val">Products | Card — Picker</span>
+<span class="c-val">Products | Card — Detail</span></pre>
+      </div>
+      <h3>Portal Pickers</h3>
+      <p>Use <code>Picker</code> as the Purpose. The Variant names what is being selected.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Picker Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Invoices | Picker — Products</span>
+<span class="c-val">Invoices | Picker — Contacts</span>
+
+<span class="c-val">Projects | Picker — Employees</span>
+<span class="c-val">Projects | Picker — Tasks</span></pre>
+      </div>
+      <h3>Reports &amp; Summaries</h3>
+      <p>Use <code>Report</code> or <code>Summary Report</code> as the Purpose. The Variant describes the grouping or filter applied.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Report Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Invoices | Summary Report — by Month</span>
+<span class="c-val">Invoices | Summary Report — by Sales Rep</span>
+
+<span class="c-val">Projects | Report — Status Overview</span>
+<span class="c-val">Contacts | Report — Mailing List</span></pre>
+      </div>
+      <h3>Utility &amp; Internal Layouts</h3>
+      <p>Prefix layouts not meant for end-user navigation with an underscore (<code>_</code>). This pushes them to the top of sorted lists and signals internal use.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Utility Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">_Globals</span>
+<span class="c-key">_Globals | Card — User Preferences</span>
+<span class="c-key">_Globals | Card — Navigation Menu</span>
+<span class="c-key">_Email Template</span></pre>
+      </div>
+      <h3>Deprecated Layouts</h3>
+      <p>Prefix retired layouts with <code>z_</code> so they sort to the bottom and are clearly marked as inactive.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Deprecated Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-comment">z_Deprecated | Contacts — Old Layout</span>
+<span class="c-comment">z_Deprecated | Invoices — Legacy Print</span></pre>
+      </div>
+      <h3 id="layouts-qr">Quick Reference</h3>
+      <div class="pattern-list">
+        <div class="pattern-row"><div class="pattern-code">Context | Purpose</div><div class="pattern-desc">Standard layout — no variant needed</div></div>
+        <div class="pattern-row"><div class="pattern-code">Context | Purpose — Variant</div><div class="pattern-desc">Layout with qualifier</div></div>
+        <div class="pattern-row"><div class="pattern-code">Context | Card — Job</div><div class="pattern-desc">Card window — describe the job, not the trigger</div></div>
+        <div class="pattern-row"><div class="pattern-code">Context | Print — Format</div><div class="pattern-desc">Print layout with format variant</div></div>
+        <div class="pattern-row"><div class="pattern-code">Context | Picker — Subject</div><div class="pattern-desc">Portal picker — name what is being selected</div></div>
+        <div class="pattern-row"><div class="pattern-code">Context | Summary Report — Grouping</div><div class="pattern-desc">Report with grouping or filter variant</div></div>
+        <div class="pattern-row"><div class="pattern-code">_Globals</div><div class="pattern-desc">Utility layout — underscore prefix, sorts to top</div></div>
+        <div class="pattern-row"><div class="pattern-code">z_Deprecated | Context — Note</div><div class="pattern-desc">Retired layout — z_ prefix, sorts to bottom</div></div>
+      </div>
+    </section>
+
+<section class="section" id="objects">
       <div class="section-header">
         <div class="section-icon">🎛</div>
         <div class="section-title-wrap">
-          <div class="section-tag">Convention 04</div>
+          <div class="section-tag">Convention 05</div>
           <h2 class="section-title">Layout Objects</h2>
         </div>
       </div>
@@ -867,7 +986,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <div class="section-header">
         <div class="section-icon">🎨</div>
         <div class="section-title-wrap">
-          <div class="section-tag">Convention 05</div>
+          <div class="section-tag">Convention 06</div>
           <h2 class="section-title">Theme Styles</h2>
         </div>
       </div>
