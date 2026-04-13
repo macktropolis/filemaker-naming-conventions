@@ -446,12 +446,12 @@
 
 <!-- HERO -->
 <header class="hero" id="top">
-  <div class="hero-eyebrow">Development Standards · v1.0 · 2026</div>
+  <div class="hero-eyebrow">Development Standards · Scripts v2.0 · 2026</div>
   <h1>FileMaker Naming Conventions</h1>
-  <p>A unified reference for fields, tables, scripts, layouts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
+  <p>A unified reference for fields, tables, scripts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
   <div class="hero-meta">
-    <span class="hero-badge"><span class="dot"></span> 6 Conventions</span>
-    <span class="hero-badge">Fields · Tables · Scripts · Layouts · Objects · Styles</span>
+    <span class="hero-badge"><span class="dot"></span> 5 Conventions</span>
+    <span class="hero-badge">Fields · Tables · Scripts · Objects · Styles</span>
   </div>
 </header>
 
@@ -463,14 +463,13 @@
     <a href="#fields"   class="nav-item">01 · Fields</a>
     <a href="#tables"   class="nav-item">02 · Tables &amp; TOs</a>
     <a href="#scripts"  class="nav-item">03 · Scripts</a>
-    <a href="#layouts"  class="nav-item">04 · Layouts</a>
-    <a href="#objects"  class="nav-item">05 · Layout Objects</a>
-    <a href="#styles"   class="nav-item">06 · Theme Styles</a>
+    <a href="#objects"  class="nav-item">04 · Layout Objects</a>
+    <a href="#styles"   class="nav-item">05 · Theme Styles</a>
     <div class="nav-label">Quick Refs</div>
     <a href="#fields-qr"  class="nav-item nav-sub">Field prefixes</a>
     <a href="#tables-qr"  class="nav-item nav-sub">TO separators</a>
     <a href="#scripts-qr" class="nav-item nav-sub">Script flags</a>
-    <a href="#layouts-qr" class="nav-item nav-sub">Layout patterns</a>
+    <a href="#scripts" class="nav-item nav-sub">Script structure</a>
     <a href="#objects-qr" class="nav-item nav-sub">Object patterns</a>
     <a href="#styles-qr"  class="nav-item nav-sub">Style modifiers</a>
   </nav>
@@ -665,56 +664,73 @@
         </div>
       </div>
 
-      <p><strong>Core principle:</strong> Names tell you <em>what</em> and <em>where</em>. Headers tell you <em>how</em>. Parameters are JSON-keyed objects documented in the header block — never encoded in the name.</p>
+      <p><strong>Core principle:</strong> Names tell you <em>what</em> and <em>where</em>. Headers tell you <em>how</em>. Parameters are JSON-keyed objects documented in the header block — never encoded in the name. All characters are URL-safe for use in <code>fmp://</code> URLs without percent-encoding.</p>
 
-      <h3>Script Name Formula</h3>
+      <h3>Script Name Structure</h3>
       <div class="code-block">
         <div class="code-header"><span class="code-label">Anatomy</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-comment">[ Module ]  [ Flag ]  Verb  Noun  – Qualifier</span>
+        <pre><span class="c-comment">Module__VerbNoun</span>
+<span class="c-comment">Module__VerbNoun--Qualifier</span>
+<span class="c-comment">Module__VerbNoun--flag</span>
+<span class="c-comment">Module__VerbNoun--Qualifier--flag</span>
 
-<span class="c-val">[Startup]</span> <span class="c-op">!!</span> <span class="c-key">Initialize</span> System Vars
-<span class="c-val">[Projects]</span> <span class="c-op">&gt;</span> <span class="c-key">Create</span> – Edit Project
-<span class="c-val">[Triggers]</span> <span class="c-op">&lt;</span> <span class="c-key">OnLayoutEnter</span>
-<span class="c-val">[UI]</span> <span class="c-op">_</span> <span class="c-key">Refresh</span> Portal Filter – v2
-<span class="c-val">[Utility]</span> <span class="c-op">__</span> <span class="c-key">Reset</span> Data Entry Fields – Loop
-<span class="c-val">[Utility]</span> <span class="c-key">Close</span> Popover              <span class="c-comment">← no flag = public utility</span></pre>
+<span class="c-val">Startup</span><span class="c-op">__</span><span class="c-key">InitializeSystemVars</span><span class="c-op">--</span><span class="c-comment">z</span>         <span class="c-comment">← init flag · no qualifier</span>
+<span class="c-val">Startup</span><span class="c-op">__</span><span class="c-key">Login</span>                            <span class="c-comment">← no flag · public entry point</span>
+<span class="c-val">Projects</span><span class="c-op">__</span><span class="c-key">CreateEditProject</span>               <span class="c-comment">← no flag · public utility</span>
+<span class="c-val">Utility</span><span class="c-op">__</span><span class="c-key">ResetDataEntryFields</span><span class="c-op">--</span><span class="c-val">Loop</span><span class="c-op">--</span><span class="c-comment">p</span>    <span class="c-comment">← qualifier then private flag</span>
+<span class="c-val">Utility</span><span class="c-op">__</span><span class="c-key">GetRecordData</span><span class="c-op">--</span><span class="c-val">AsJSON</span>             <span class="c-comment">← qualifier · no flag</span>
+<span class="c-val">Triggers</span><span class="c-op">__</span><span class="c-key">OnLayoutEnter</span>                   <span class="c-comment">← trigger callback · no flag</span></pre>
+      </div>
+
+      <h3>Separator Roles</h3>
+      <div class="def-grid">
+        <div class="def-key">__ (double underscore)</div><div class="def-val">Module boundary. Separates the module name from the script name. Appears exactly once per name.</div>
+        <div class="def-key">-- (double hyphen)</div><div class="def-val">Qualifier or flag boundary. Separates the core name from its qualifier, and the qualifier from its flag.</div>
+        <div class="def-key">PascalCase</div><div class="def-val">Word boundary within module, verb, noun, or qualifier. No separator character — words are distinguished by capitalisation.</div>
       </div>
 
       <div class="callout warn">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body"><strong>Formatting Rules</strong>
-        Use Title Case throughout — never ALL-CAPS verbs. The module tag must match the folder name exactly. Qualifiers use an em-dash (–) with one space each side, never a hyphen or slash. Never encode parameters in the script name.</div>
+        PascalCase throughout — every word in every part of the name begins with a capital letter. The only exceptions are the single-letter flags (<code>p</code>, <code>x</code>, <code>z</code>), which are intentionally lowercase so they stand out as metadata. No spaces anywhere in the script name.</div>
       </div>
 
-      <h3 id="scripts-qr">Prefix Flags</h3>
+      <h3 id="scripts-qr">Suffix Flags</h3>
+      <p>Flags appear as a suffix after <code>--</code>, following any qualifier. The absence of a flag is itself meaningful — it signals the script is a stable public utility safe to call from anywhere.</p>
       <div class="table-wrap flag-table">
         <table>
           <thead><tr><th>Flag</th><th>Name</th><th>Caller Rule</th></tr></thead>
           <tbody>
-            <tr><td>!!</td><td>Setup / Init</td><td>Startup script or module entry point only.</td></tr>
-            <tr><td>&gt;</td><td>Entry Point</td><td>Buttons or triggers only. Other scripts must never call it mid-workflow.</td></tr>
-            <tr><td>&lt;</td><td>Callback</td><td>FileMaker trigger system or dynamic Perform Script only.</td></tr>
-            <tr><td>_</td><td>Private</td><td>This module only. Must never appear in a button's Perform Script.</td></tr>
-            <tr><td>__</td><td>Subroutine</td><td>One parent script only.</td></tr>
-            <tr><td>~</td><td>Deprecated</td><td>Existing callers only. Header must note the replacement and removal date.</td></tr>
-            <tr><td>?</td><td>Experimental</td><td>Developer only. Must not exist in a production file.</td></tr>
-            <tr><td>(none)</td><td>Public Utility</td><td>Anyone. Fully reusable across modules.</td></tr>
+            <tr><td>--p</td><td>Private</td><td>This module only. Covers what was previously split into "private" and "subroutine" — any non-public helper gets <code>--p</code>. Must never be called from a button or from outside the module.</td></tr>
+            <tr><td>--z</td><td>Setup / Init</td><td>File startup script or this module's own initialisation routine only.</td></tr>
+            <tr><td>--x</td><td>Deprecated</td><td>Existing callers only. Header must note the replacement and target removal date. No new callers permitted.</td></tr>
+            <tr><td>(none)</td><td>Public Utility</td><td>Anyone. Reusable across modules. Includes all user-facing entry points — if a button calls it, it has no flag.</td></tr>
           </tbody>
         </table>
       </div>
 
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body"><strong>Note on Sorting</strong>
+        Unlike the previous convention, flags are now suffixes and do not affect alphabetical sort order. Organisation within a folder relies on consistent naming and the folder structure itself. Keep each module folder focused enough that scanning is manageable without sort tricks.</div>
+      </div>
+
       <h3>How to Choose a Flag</h3>
-      <p>Ask: <em>"What initiates this script?"</em></p>
+      <p>Ask: <em>"Who is allowed to call this script?"</em></p>
       <div class="def-grid">
-        <div class="def-key">User action</div><div class="def-val">Button click, menu item, keyboard shortcut → <code>&gt;</code> Entry Point</div>
-        <div class="def-key">Script trigger</div><div class="def-val">OnLayoutEnter, OnRecordLoad, OnObjectEnter → <code>&lt;</code> Callback</div>
-        <div class="def-key">Another script</div><div class="def-val">Internal, same module → <code>_</code> Private (or <code>__</code> if one parent only)</div>
-        <div class="def-key">FileMaker itself</div><div class="def-val">On file open, close, or first launch → <code>!!</code> Setup / Init</div>
-        <div class="def-key">Any of the above</div><div class="def-val">Genuinely reusable across contexts → <code>(none)</code> Public Utility</div>
+        <div class="def-key">Anyone</div><div class="def-val">Buttons, other modules, external scripts, fmp:// URLs → <code>(none)</code></div>
+        <div class="def-key">This module only</div><div class="def-val">Internal helper, loop body, sub-process → <code>--p</code></div>
+        <div class="def-key">Startup only</div><div class="def-val">File startup script or module init routine → <code>--z</code></div>
+        <div class="def-key">Nobody new</div><div class="def-val">Kept only to avoid breaking existing callers → <code>--x</code></div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Trigger scripts</strong> (OnLayoutEnter, OnRecordLoad, etc.) live in a <code>Triggers</code> folder and get <strong>no flag</strong>. Their folder location signals that FileMaker's trigger system calls them — not developers directly.</div>
       </div>
 
       <h3>Approved Verb List</h3>
-      <p>All script verbs must come from this list. Never use a synonym and leave it undocumented. To add a new verb, update the standard first.</p>
+      <p>All script verbs must come from this list. Never use a synonym and leave it undocumented. To add a new verb, update the standard first. All verbs are written in PascalCase as part of the script name.</p>
 
       <div class="code-block">
         <div class="code-header"><span class="code-label">Data Operations</span><div class="code-dots"><span></span><span></span><span></span></div></div>
@@ -737,17 +753,30 @@
       <div class="callout danger">
         <div class="callout-icon">🚫</div>
         <div class="callout-body"><strong>Deprecated — Do Not Use</strong>
-        <code>GO TO</code> → use <code>Navigate</code> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <code>Get</code> or <code>Retrieve</code> &nbsp;|&nbsp; <code>Display</code> → use <code>Show</code> &nbsp;|&nbsp; <code>RUN</code> → use <code>Process</code> or <code>Perform</code> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
+        <code>GO TO</code> → use <code>Navigate</code> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <code>Get</code> or <code>Retrieve</code> &nbsp;|&nbsp; <code>Display</code> → use <code>Show</code> &nbsp;|&nbsp; <code>RUN</code> → use <code>Process</code> or <code>Perform</code> &nbsp;|&nbsp; <code>Unsort</code> → use <code>ClearSort</code> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
       </div>
 
       <h3>Qualifier Types</h3>
-      <p>Qualifiers follow an em-dash (–) with one space each side. Types: <strong>Context/Trigger</strong> (– On Create, – On Login), <strong>Method</strong> (– By Direction, – As JSON), <strong>Scope</strong> (– Server Side, – PSoS), <strong>Condition</strong> (– Loop, – If Empty), <strong>Version</strong> (– v2, – Legacy), and <strong>Combined Operation</strong> (Create – Edit, Open – Initialize).</p>
+      <p>Qualifiers are appended after <code>--</code> with no spaces, written in PascalCase. If a flag is also present, the qualifier comes first: <code>Module__VerbNoun--Qualifier--flag</code>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td>Context / Trigger</td><td><code>--OnCreate</code> &nbsp;<code>--OnEdit</code> &nbsp;<code>--OnLogin</code> &nbsp;<code>--EnterKey</code></td></tr>
+            <tr><td>Method / Approach</td><td><code>--ByDirection</code> &nbsp;<code>--ByNumber</code> &nbsp;<code>--AsJSON</code> &nbsp;<code>--UsingTemplate</code></td></tr>
+            <tr><td>Scope / Target</td><td><code>--ServerSide</code> &nbsp;<code>--PSoS</code> &nbsp;<code>--Modal</code> &nbsp;<code>--Batch</code></td></tr>
+            <tr><td>Condition</td><td><code>--IfNotEmpty</code> &nbsp;<code>--IfEmpty</code> &nbsp;<code>--Loop</code></td></tr>
+            <tr><td>Version</td><td><code>--v2</code> &nbsp;<code>--Legacy</code></td></tr>
+            <tr><td>Combined Operation</td><td>Join directly in PascalCase — no qualifier needed: <code>CreateEditProject</code>, <code>OpenInitializeWindow</code></td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h3>Script Header Block</h3>
       <div class="code-block">
         <div class="code-header"><span class="code-label">Header Template</span><div class="code-dots"><span></span><span></span><span></span></div></div>
         <pre><span class="c-comment"># ─────────────────────────────────────────────────────────</span>
-<span class="c-comment"># SCRIPT   : [Invoice] &gt; Create – Edit Invoice</span>
+<span class="c-comment"># SCRIPT   : Invoice__CreateEditInvoice</span>
 <span class="c-comment"># PURPOSE  : Opens the Invoice form. Creates a new record if</span>
 <span class="c-comment">#            none exists, or edits the current record.</span>
 <span class="c-comment"># ──────────────</span>
@@ -770,149 +799,38 @@
         <table>
           <thead><tr><th>Anti-Pattern</th><th>Before</th><th>After</th></tr></thead>
           <tbody>
-            <tr><td>ALL-CAPS verbs</td><td><code>CREATE</code></td><td><code>Create</code></td></tr>
-            <tr><td>CREATE / EDIT slash</td><td><code>CREATE / EDIT Project</code></td><td><code>[Projects] &gt; Create – Edit Project</code></td></tr>
-            <tr><td>GO TO</td><td><code>GO TO Layout</code></td><td><code>[Module] Navigate To Layout</code></td></tr>
-            <tr><td>Bracket params</td><td><code>RESET Fields [LOOP]</code></td><td><code>[Module] __ Reset Fields – Loop</code></td></tr>
-            <tr><td>Noun-only names</td><td><code>Dev Docs</code></td><td><code>[Dev] &gt; Open Dev Docs</code></td></tr>
-            <tr><td>Trigger without flag</td><td><code>OnLayoutEnter</code></td><td><code>[Triggers] &lt; OnLayoutEnter</code></td></tr>
+            <tr><td>Special characters / spaces</td><td><code>[Startup] !! Initialize System Vars</code></td><td><code>Startup__InitializeSystemVars--z</code></td></tr>
+            <tr><td>CREATE / EDIT slash</td><td><code>CREATE / EDIT Project</code></td><td><code>Projects__CreateEditProject</code></td></tr>
+            <tr><td>GO TO</td><td><code>GO TO Layout</code></td><td><code>Nav__NavigateToLayout</code></td></tr>
+            <tr><td>Bracket params</td><td><code>RESET Fields [LOOP]</code></td><td><code>Utility__ResetDataEntryFields--Loop--p</code></td></tr>
+            <tr><td>Noun-only names</td><td><code>DevDocs</code></td><td><code>Dev__OpenDevDocs</code></td></tr>
+            <tr><td>New + Create redundancy</td><td><code>CreateNewRecord</code></td><td><code>CreateRecord</code></td></tr>
           </tbody>
         </table>
+      </div>
+
+      <h3>URL Usage</h3>
+      <p>All script names under this convention are unconditionally safe for use in <code>fmp://</code> URLs without percent-encoding — no brackets, spaces, or special symbols appear anywhere in a compliant name.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">fmp:// Example</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">fmp://$/DevHub?script=Utility__GetRecordData--AsJSON&amp;param=...</span></pre>
       </div>
 
       <div class="callout tip">
         <div class="callout-icon">💡</div>
         <div class="callout-body"><strong>Exemptions</strong>
-        The <strong>Scripts Menu folder</strong> is fully exempt — names there are user-facing and should be natural-language. Add-on scripts are exempt from module tagging but custom scripts added to an add-on folder follow the convention.</div>
+        The <strong>Scripts Menu folder</strong> is fully exempt — names there are user-facing and do not need to be URL-safe. Add-on scripts are exempt from module naming, but custom scripts added to an add-on folder follow the convention.</div>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════
          04  LAYOUT OBJECTS
     ══════════════════════════════════════════ -->
-    
-    <!-- ══════════════════════════════════════════
-         04 LAYOUTS
-    ══════════════════════════════════════════ -->
-    <section class="section" id="layouts">
-      <div class="section-header">
-        <div class="section-icon">📐</div>
-        <div class="section-title-wrap">
-          <div class="section-tag">Convention 04</div>
-          <h2 class="section-title">Layouts</h2>
-        </div>
-      </div>
-      <p>Layout names follow a three-part structure that makes every layout self-describing at a glance. The <strong>Context</strong> groups related layouts together. The <strong>Purpose</strong> describes what the layout does. The optional <strong>Variant</strong> qualifies layouts that need further distinction.</p>
-      <h3>Layout Name Structure</h3>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Anatomy</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-key">Context</span> <span class="c-op">|</span> <span class="c-val">Purpose</span> <span class="c-op">—</span> <span class="c-comment">Variant</span>
-
-<span class="c-comment">Context  →  The primary table or subject area the layout serves</span>
-<span class="c-comment">Purpose  →  What the layout does or what type it is</span>
-<span class="c-comment">Variant  →  Optional qualifier when further distinction is needed</span>
-
-<span class="c-comment">|  (pipe)    →  Separates Context from Purpose</span>
-<span class="c-comment">—  (em dash) →  Separates Purpose from Variant</span></pre>
-      </div>
-      <div class="callout tip">
-        <div class="callout-icon">💡</div>
-        <div class="callout-body"><strong>Keep It Lean</strong> Omit the Variant when no qualifier is needed. When a Variant does appear, it signals something meaningful — not decorative structure.</div>
-      </div>
-      <h3>Standard Layouts</h3>
-      <p>Everyday detail and list layouts use a plain <code>Context | Purpose</code> name.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Standard Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-val">Contacts | Detail</span>
-<span class="c-val">Contacts | List</span>
-<span class="c-val">Contacts | New Record</span>
-
-<span class="c-val">Invoices | Detail</span>
-<span class="c-val">Invoices | List</span>
-
-<span class="c-val">Products | Detail</span>
-<span class="c-val">Products | List</span></pre>
-      </div>
-      <h3>Print Layouts</h3>
-      <p>Use <code>Print</code> as the Purpose. The Variant distinguishes between different print formats for the same subject.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Print Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-val">Contacts | Print — Label</span>
-<span class="c-val">Contacts | Print — Full Record</span>
-<span class="c-val">Contacts | Print — Summary</span>
-
-<span class="c-val">Invoices | Print — Standard</span>
-<span class="c-val">Invoices | Print — Detailed</span>
-<span class="c-val">Invoices | Print — Packing Slip</span></pre>
-      </div>
-      <h3>Card Windows</h3>
-      <p>Always use <code>Card</code> as the Purpose — this instantly signals to any developer that the layout is designed for a card window. Use the Variant to describe the job the card performs, not how it is triggered.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Card Window Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-val">Contacts | Card — Quick Edit</span>
-<span class="c-val">Contacts | Card — New Record</span>
-<span class="c-val">Contacts | Card — Merge Preview</span>
-
-<span class="c-val">Invoices | Card — Add Line Item</span>
-<span class="c-val">Invoices | Card — Send Confirmation</span>
-
-<span class="c-val">Products | Card — Picker</span>
-<span class="c-val">Products | Card — Detail</span></pre>
-      </div>
-      <h3>Portal Pickers</h3>
-      <p>Use <code>Picker</code> as the Purpose. The Variant names what is being selected.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Picker Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-val">Invoices | Picker — Products</span>
-<span class="c-val">Invoices | Picker — Contacts</span>
-
-<span class="c-val">Projects | Picker — Employees</span>
-<span class="c-val">Projects | Picker — Tasks</span></pre>
-      </div>
-      <h3>Reports &amp; Summaries</h3>
-      <p>Use <code>Report</code> or <code>Summary Report</code> as the Purpose. The Variant describes the grouping or filter applied.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Report Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-val">Invoices | Summary Report — by Month</span>
-<span class="c-val">Invoices | Summary Report — by Sales Rep</span>
-
-<span class="c-val">Projects | Report — Status Overview</span>
-<span class="c-val">Contacts | Report — Mailing List</span></pre>
-      </div>
-      <h3>Utility &amp; Internal Layouts</h3>
-      <p>Prefix layouts not meant for end-user navigation with an underscore (<code>_</code>). This pushes them to the top of sorted lists and signals internal use.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Utility Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-key">_Globals</span>
-<span class="c-key">_Globals | Card — User Preferences</span>
-<span class="c-key">_Globals | Card — Navigation Menu</span>
-<span class="c-key">_Email Template</span></pre>
-      </div>
-      <h3>Deprecated Layouts</h3>
-      <p>Prefix retired layouts with <code>z_</code> so they sort to the bottom and are clearly marked as inactive.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Deprecated Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-comment">z_Deprecated | Contacts — Old Layout</span>
-<span class="c-comment">z_Deprecated | Invoices — Legacy Print</span></pre>
-      </div>
-      <h3 id="layouts-qr">Quick Reference</h3>
-      <div class="pattern-list">
-        <div class="pattern-row"><div class="pattern-code">Context | Purpose</div><div class="pattern-desc">Standard layout — no variant needed</div></div>
-        <div class="pattern-row"><div class="pattern-code">Context | Purpose — Variant</div><div class="pattern-desc">Layout with qualifier</div></div>
-        <div class="pattern-row"><div class="pattern-code">Context | Card — Job</div><div class="pattern-desc">Card window — describe the job, not the trigger</div></div>
-        <div class="pattern-row"><div class="pattern-code">Context | Print — Format</div><div class="pattern-desc">Print layout with format variant</div></div>
-        <div class="pattern-row"><div class="pattern-code">Context | Picker — Subject</div><div class="pattern-desc">Portal picker — name what is being selected</div></div>
-        <div class="pattern-row"><div class="pattern-code">Context | Summary Report — Grouping</div><div class="pattern-desc">Report with grouping or filter variant</div></div>
-        <div class="pattern-row"><div class="pattern-code">_Globals</div><div class="pattern-desc">Utility layout — underscore prefix, sorts to top</div></div>
-        <div class="pattern-row"><div class="pattern-code">z_Deprecated | Context — Note</div><div class="pattern-desc">Retired layout — z_ prefix, sorts to bottom</div></div>
-      </div>
-    </section>
-
-<section class="section" id="objects">
+    <section class="section" id="objects">
       <div class="section-header">
         <div class="section-icon">🎛</div>
         <div class="section-title-wrap">
-          <div class="section-tag">Convention 05</div>
+          <div class="section-tag">Convention 04</div>
           <h2 class="section-title">Layout Objects</h2>
         </div>
       </div>
@@ -987,7 +905,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <div class="section-header">
         <div class="section-icon">🎨</div>
         <div class="section-title-wrap">
-          <div class="section-tag">Convention 06</div>
+          <div class="section-tag">Convention 05</div>
           <h2 class="section-title">Theme Styles</h2>
         </div>
       </div>
