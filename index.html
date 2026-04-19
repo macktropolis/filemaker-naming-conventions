@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FileMaker Naming Conventions</title>
+<title>FileMaker Development Conventions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -20,7 +20,7 @@
     --red:        #f87171;
     --text:       #e8e8f0;
     --text2:      #9999b3;
-    --text3:      #6666888;
+    --text3:      #66668888;
     --mono:       'IBM Plex Mono', monospace;
     --sans:       'IBM Plex Sans', sans-serif;
     --display:    'Playfair Display', serif;
@@ -408,6 +408,57 @@
 
   .pattern-desc { font-size: 13px; color: var(--text2); }
 
+  /* ── SIZING GRID (3-col) ── */
+  .sizing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0 24px;
+  }
+
+  .sizing-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .sizing-card-header {
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .sizing-card-body {
+    padding: 14px;
+  }
+
+  .sizing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+  .sizing-row:last-child { border-bottom: none; }
+
+  .sizing-label {
+    color: var(--text2);
+    font-size: 12px;
+  }
+
+  .sizing-val {
+    font-family: var(--mono);
+    color: var(--green);
+    font-size: 12px;
+  }
+
   /* ── DIVIDER ── */
   hr {
     border: none;
@@ -439,6 +490,7 @@
     .def-grid { grid-template-columns: 1fr; }
     .def-key { border-right: none; border-bottom: 1px solid var(--border); }
     .pattern-row { grid-template-columns: 1fr; }
+    .sizing-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -446,12 +498,12 @@
 
 <!-- HERO -->
 <header class="hero" id="top">
-  <div class="hero-eyebrow">Development Standards · Scripts v2.0 · 2026</div>
-  <h1>FileMaker Naming Conventions</h1>
-  <p>A unified reference for fields, tables, scripts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
+  <div class="hero-eyebrow">Development Standards · v2.1 · 2026</div>
+  <h1>FileMaker Development Conventions</h1>
+  <p>A unified reference for fields, tables, scripts, layout objects, theme styles, and layout sizing standards — written to keep every solution readable, maintainable, and consistent.</p>
   <div class="hero-meta">
-    <span class="hero-badge"><span class="dot"></span> 6 Conventions</span>
-    <span class="hero-badge">Fields · Tables · Scripts · Layouts · Objects · Styles</span>
+    <span class="hero-badge"><span class="dot"></span> 7 Conventions</span>
+    <span class="hero-badge">Fields · Tables · Scripts · Layouts · Objects · Styles · Sizing</span>
   </div>
 </header>
 
@@ -459,21 +511,24 @@
 
   <!-- SIDEBAR -->
   <nav class="sidebar" aria-label="Page navigation">
-    <div class="nav-label">Conventions</div>
+    <div class="nav-label">Naming Conventions</div>
     <a href="#fields"   class="nav-item">01 · Fields</a>
     <a href="#tables"   class="nav-item">02 · Tables &amp; TOs</a>
     <a href="#scripts"  class="nav-item">03 · Scripts</a>
     <a href="#layouts"  class="nav-item">04 · Layouts</a>
     <a href="#objects"  class="nav-item">05 · Layout Objects</a>
     <a href="#styles"   class="nav-item">06 · Theme Styles</a>
+    <div class="nav-label">Sizing Standards</div>
+    <a href="#sizing"   class="nav-item">07 · Layout Sizing</a>
     <div class="nav-label">Quick Refs</div>
-    <a href="#fields-qr"  class="nav-item nav-sub">Field prefixes</a>
-    <a href="#tables-qr"  class="nav-item nav-sub">TO separators</a>
-    <a href="#scripts-qr" class="nav-item nav-sub">Script flags</a>
-    <a href="#scripts"    class="nav-item nav-sub">Script structure</a>
-    <a href="#layouts-qr" class="nav-item nav-sub">Layout patterns</a>
-    <a href="#objects-qr" class="nav-item nav-sub">Object patterns</a>
-    <a href="#styles-qr"  class="nav-item nav-sub">Style modifiers</a>
+    <a href="#fields-qr"   class="nav-item nav-sub">Field prefixes</a>
+    <a href="#tables-qr"   class="nav-item nav-sub">TO separators</a>
+    <a href="#scripts-qr"  class="nav-item nav-sub">Script flags</a>
+    <a href="#scripts"     class="nav-item nav-sub">Script structure</a>
+    <a href="#layouts-qr"  class="nav-item nav-sub">Layout patterns</a>
+    <a href="#objects-qr"  class="nav-item nav-sub">Object patterns</a>
+    <a href="#styles-qr"   class="nav-item nav-sub">Style modifiers</a>
+    <a href="#sizing-qr"   class="nav-item nav-sub">Unit conversion</a>
   </nav>
 
   <!-- MAIN -->
@@ -741,13 +796,13 @@
 <span class="c-key">Sort</span>    <span class="c-key">Empty</span></pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-label">UI & Navigation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <div class="code-header"><span class="code-label">UI &amp; Navigation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
         <pre><span class="c-key">Navigate</span> <span class="c-key">Open</span>    <span class="c-key">Close</span>   <span class="c-key">Show</span>    <span class="c-key">Hide</span>    <span class="c-key">Toggle</span>
 <span class="c-key">Refresh</span>  <span class="c-key">Resize</span>  <span class="c-key">Maximize</span> <span class="c-key">Rename</span> <span class="c-key">Print</span>   <span class="c-key">Send</span>
 <span class="c-key">Zoom</span></pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-label">Process & Lifecycle</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <div class="code-header"><span class="code-label">Process &amp; Lifecycle</span><div class="code-dots"><span></span><span></span><span></span></div></div>
         <pre><span class="c-key">Initialize</span> <span class="c-key">Process</span>  <span class="c-key">Format</span>  <span class="c-key">Reset</span>     <span class="c-key">Clear</span>  <span class="c-key">Undo</span>
 <span class="c-key">Handle</span>     <span class="c-key">Evaluate</span> <span class="c-key">Assign</span>  <span class="c-key">Ping</span>      <span class="c-key">Resequence</span>
 <span class="c-key">Capture</span>    <span class="c-key">Mark</span>     <span class="c-key">Perform</span></pre>
@@ -1142,6 +1197,164 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <p><strong>3. Depth limit: block__element--modifier only.</strong> Do not go beyond three segments. <code>prt__leading-grand-summary--brand</code> is acceptable. <code>prt__header__label--brand--active</code> is too deep.</p>
       <p><strong>4. One modifier per <code>--</code> separator.</strong> Flatten compound modifiers with a single hyphen: <code>--ruled-alt</code>, not <code>--ruled--alt</code>.</p>
       <p><strong>5. Document your vocabulary.</strong> Maintain a reference list of approved blocks, elements, and modifiers so the convention stays consistent as the theme grows.</p>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         07  LAYOUT SIZING STANDARDS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="sizing">
+      <div class="section-header">
+        <div class="section-icon">📏</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Standard 07</div>
+          <h2 class="section-title">Layout Sizing Standards</h2>
+        </div>
+      </div>
+
+      <p>FileMaker canvas dimensions and all measurements are expressed in <strong>points (pt)</strong> — the unit used in FileMaker's Inspector panel when set to Points mode. These standards are adapted from Apple Human Interface Guidelines and Material Design touch target rules, converted to FileMaker's point-based unit system. Desktop and tablet layouts use landscape orientation; phone layouts use portrait.</p>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body"><strong>pt ≠ px</strong>
+        1pt = 1.333px. To convert web/RWD pixel values to FileMaker points: <strong>pt = px × 0.75</strong>. The most important conversion: the standard 44px touch target minimum becomes <strong>33pt</strong> in FileMaker.</div>
+      </div>
+
+      <h3>Canvas Dimensions</h3>
+      <p>FileMaker Go does not reflow layouts — canvas size is your breakpoint decision. Design three separate layout families and route users at startup.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Target</th><th>Orientation</th><th>Width</th><th>Height</th></tr></thead>
+          <tbody>
+            <tr><td>Desktop</td><td>Landscape</td><td>960pt</td><td>600pt</td></tr>
+            <tr><td>Tablet (iPad)</td><td>Landscape</td><td>768pt</td><td>576pt</td></tr>
+            <tr><td>Phone (iPhone)</td><td>Portrait</td><td>293pt</td><td>633pt</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Typography Scale</h3>
+      <div class="sizing-grid">
+        <div class="sizing-card">
+          <div class="sizing-card-header">Desktop</div>
+          <div class="sizing-card-body">
+            <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">18–21pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">13–15pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">10pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11–12pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8–9pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">11pt</span></div>
+          </div>
+        </div>
+        <div class="sizing-card">
+          <div class="sizing-card-header">Tablet</div>
+          <div class="sizing-card-body">
+            <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">16–18pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">12–13pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">9–10pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">10–11pt</span></div>
+          </div>
+        </div>
+        <div class="sizing-card">
+          <div class="sizing-card-header">Phone</div>
+          <div class="sizing-card-body">
+            <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">15–16pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">11–12pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">8–9pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">11pt *</span></div>
+          </div>
+        </div>
+      </div>
+      <p>* Phone button labels hold at 11pt minimum for legibility on small screens.</p>
+
+      <h3>Touch Targets &amp; Spacing</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Element</th><th>Desktop</th><th>Tablet</th><th>Phone</th></tr></thead>
+          <tbody>
+            <tr><td>Min button height</td><td>21–24pt</td><td>30pt</td><td>33pt</td></tr>
+            <tr><td>Min tap target area</td><td>—</td><td>33×33pt</td><td>33×33pt</td></tr>
+            <tr><td>Field row height</td><td>18–21pt</td><td>27–30pt</td><td>33pt</td></tr>
+            <tr><td>Portal row height</td><td>18–23pt</td><td>29–33pt</td><td>38–42pt</td></tr>
+            <tr><td>Section padding</td><td>12–15pt</td><td>12pt</td><td>9–12pt</td></tr>
+            <tr><td>Gutter / margin</td><td>15pt</td><td>12pt</td><td>9pt</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Touch Target Padding</strong>
+        Even if a button visually appears smaller than 33pt tall, its clickable bounds should be padded to meet the 33pt minimum. This is especially important for icon-only buttons and nav bar items in FileMaker Go.</div>
+      </div>
+
+      <h3>Layout-Specific Conventions</h3>
+
+      <p><strong>Desktop</strong> — Persistent left sidebar or top tab bar navigation. Card windows are appropriate for modals, pickers, and sub-forms. Two- and three-column portal/list views are suitable.</p>
+
+      <p><strong>Tablet (Landscape)</strong> — Treat as a constrained desktop. Top nav bar or slim sidebar works well. Avoid small controls — fingers are in play even with a keyboard attached. Card windows should stay no wider than ~80% of canvas.</p>
+
+      <p><strong>Phone (Portrait)</strong> — Single-column layouts only. No horizontal-scrolling portals. Bottom-anchored nav bars feel native in FileMaker Go. Use popover buttons and collapsible sections for secondary content.</p>
+
+      <h3>Fonts</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Use</th><th>Mac / Desktop</th><th>Go (iOS)</th></tr></thead>
+          <tbody>
+            <tr><td>UI / Labels</td><td>Helvetica Neue or system</td><td>SF Pro (via "System Font")</td></tr>
+            <tr><td>Monospace</td><td>Menlo</td><td>Menlo</td></tr>
+            <tr><td>Avoid</td><td>Decorative web fonts</td><td>Anything not bundled with iOS</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Device Detection Script</h3>
+      <p>Use at startup to route users to the appropriate layout family based on platform and window width.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Startup — Route to Device Layout</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-comment">// Startup — Route to Device Layout</span>
+<span class="c-key">If</span> [ Get(SystemPlatform) = 3 <span class="c-op">or</span> Get(SystemPlatform) = -3 ]
+    <span class="c-comment">// iOS (FileMaker Go)</span>
+    <span class="c-key">If</span> [ Get(WindowWidth) >= 700 ]
+        <span class="c-comment">// Tablet — landscape</span>
+        Go to Layout [ <span class="c-val">"Home [ tablet ]"</span> ]
+    <span class="c-key">Else</span>
+        <span class="c-comment">// Phone — portrait</span>
+        Go to Layout [ <span class="c-val">"Home [ phone ]"</span> ]
+    <span class="c-key">End If</span>
+<span class="c-key">Else</span>
+    <span class="c-comment">// Desktop (Mac or Windows)</span>
+    Go to Layout [ <span class="c-val">"Home [ desktop ]"</span> ]
+<span class="c-key">End If</span></pre>
+      </div>
+
+      <h3 id="sizing-qr">Unit Conversion Reference</h3>
+      <p>Formula: <strong>pt = px × 0.75</strong> &nbsp;·&nbsp; <strong>px = pt × 1.333</strong></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Web / RWD (px)</th><th>FileMaker (pt)</th><th>Common Use</th></tr></thead>
+          <tbody>
+            <tr><td>12px</td><td>9pt</td><td>Small label / caption baseline</td></tr>
+            <tr><td>16px</td><td>12pt</td><td>Web body text default</td></tr>
+            <tr><td>44px</td><td>33pt</td><td>Touch target minimum (Apple HIG)</td></tr>
+            <tr><td>375px</td><td>281pt</td><td>iPhone SE / older canvas width</td></tr>
+            <tr><td>390px</td><td>293pt</td><td>iPhone 14/15 canvas width</td></tr>
+            <tr><td>768px</td><td>576pt</td><td>iPad landscape canvas height</td></tr>
+            <tr><td>1024px</td><td>768pt</td><td>iPad landscape canvas width</td></tr>
+            <tr><td>1280px</td><td>960pt</td><td>Desktop canvas width</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>No px in FileMaker</strong>
+        FileMaker's Inspector panel accepts dimensions in inches, centimeters, or points only — pixels are not a supported unit. Always convert web design references using the formula above before entering values in FileMaker.</div>
+      </div>
+
     </section>
 
   </main>
