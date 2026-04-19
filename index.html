@@ -345,6 +345,7 @@
   .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
   .callout-body { font-size: 13.5px; color: var(--text2); }
   .callout-body strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .callout-body b { color: var(--text); font-weight: 600; }
 
   .callout.tip    { background: rgba(52,211,153,0.07); border-color: var(--green); }
   .callout.warn   { background: rgba(240,180,41,0.07); border-color: var(--gold); }
@@ -595,7 +596,7 @@
       <div class="callout tip">
         <div class="callout-icon">💡</div>
         <div class="callout-body"><strong>Key vs. Reference</strong>
-        <code>zzk__fk_CustomerID</code> is the actual foreign key field. <code>zzg__SelectedCustomer_id</code> is a global that <em>holds</em> a customer key value. <code>pk</code>/<code>fk</code> mean "this IS a key." <code>_id</code> means "this HOLDS a key value."</div>
+        <code>zzk__fk_CustomerID</code> is the actual foreign key field. <code>zzg__SelectedCustomer_id</code> is a global that <em>holds</em> a customer key value. <code>pk</code>/<code>fk</code> mean <b>"this IS a key."</b> <code>_id</code> means <b>"this HOLDS a key value."</b></div>
       </div>
 
       <h3 id="fields-qr">Quick Reference</h3>
@@ -705,7 +706,7 @@
       <div class="callout info">
         <div class="callout-icon">ℹ️</div>
         <div class="callout-body"><strong>Quick Diagnostic</strong>
-        Everything before <code>__</code> tells you the anchor. Everything after, split on single <code>_</code>, gives you the relationship path. A name starting with <code>_</code> and containing no <code>__</code> is an anchor TO. A segment starting with <code>@</code> is an external table.</div>
+        Everything before <code>__</code> tells you the anchor. Everything after, split on single <code>_</code>, gives you the relationship path. A name starting with <code>_</code> and containing no <code>__</code> is an anchor TO. A segment starting with <b>@</b> is an external table.</div>
       </div>
     </section>
 
@@ -749,7 +750,7 @@
       <div class="callout warn">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body"><strong>Formatting Rules</strong>
-        PascalCase throughout — every word in every part of the name begins with a capital letter. The only exceptions are the single-letter flags (<code>p</code>, <code>x</code>, <code>z</code>), which are intentionally lowercase so they stand out as metadata. No spaces anywhere in the script name.</div>
+        PascalCase throughout — every word in every part of the name begins with a capital letter. The only exceptions are the single-letter flags (<code>p</code>, <code>x</code>, <code>z</code>), which are intentionally lowercase so they stand out as metadata. <b>No spaces anywhere in the script name.</b></div>
       </div>
 
       <h3 id="scripts-qr">Suffix Flags</h3>
@@ -783,7 +784,7 @@
 
       <div class="callout tip">
         <div class="callout-icon">💡</div>
-        <div class="callout-body"><strong>Trigger scripts</strong> (OnLayoutEnter, OnRecordLoad, etc.) live in a <code>Triggers</code> folder and get <strong>no flag</strong>. Their folder location signals that FileMaker's trigger system calls them — not developers directly.</div>
+        <div class="callout-body"><strong>Trigger scripts</strong> (OnLayoutEnter, OnRecordLoad, etc.) live in a <code>Triggers</code> folder and get <b>no flag</b>. Their folder location signals that FileMaker's trigger system calls them — not developers directly.</div>
       </div>
 
       <h3>Approved Verb List</h3>
@@ -810,7 +811,7 @@
       <div class="callout danger">
         <div class="callout-icon">🚫</div>
         <div class="callout-body"><strong>Deprecated — Do Not Use</strong>
-        <code>GO TO</code> → use <code>Navigate</code> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <code>Get</code> or <code>Retrieve</code> &nbsp;|&nbsp; <code>Display</code> → use <code>Show</code> &nbsp;|&nbsp; <code>RUN</code> → use <code>Process</code> or <code>Perform</code> &nbsp;|&nbsp; <code>Unsort</code> → use <code>ClearSort</code> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
+        <code>GO TO</code> → use <b>Navigate</b> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <b>Get</b> or <b>Retrieve</b> &nbsp;|&nbsp; <code>Display</code> → use <b>Show</b> &nbsp;|&nbsp; <code>RUN</code> → use <b>Process</b> or <b>Perform</b> &nbsp;|&nbsp; <code>Unsort</code> → use <b>ClearSort</b> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
       </div>
 
       <h3>Qualifier Types</h3>
@@ -876,7 +877,7 @@
       <div class="callout tip">
         <div class="callout-icon">💡</div>
         <div class="callout-body"><strong>Exemptions</strong>
-        The <strong>Scripts Menu folder</strong> is fully exempt — names there are user-facing and do not need to be URL-safe. Add-on scripts are exempt from module naming, but custom scripts added to an add-on folder follow the convention.</div>
+        The <b>Scripts Menu folder</b> is fully exempt — names there are user-facing and do not need to be URL-safe. Add-on scripts are exempt from module naming, but custom scripts added to an add-on folder follow the convention.</div>
       </div>
     </section>
 
@@ -1044,7 +1045,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <p>An element belongs to and only makes sense inside its block. Use names that describe <em>purpose or role</em>, not appearance.</p>
       <div class="callout tip">
         <div class="callout-icon">💡</div>
-        <div class="callout-body">Prefer <code>sidebar__divider</code> (describes role) over <code>sidebar__gray-line</code> (describes appearance). Appearance-based names break when the design changes.</div>
+        <div class="callout-body">Prefer <code>sidebar__divider</code> (describes role) over <code>sidebar__gray-line</code> (describes appearance). <b>Appearance-based names break when the design changes.</b></div>
       </div>
 
       <h3>Semantic vs. Instance Modifiers</h3>
@@ -1155,7 +1156,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <div class="callout danger">
         <div class="callout-icon">🚫</div>
         <div class="callout-body"><strong>Avoid Double Modifiers</strong>
-        <code>bg--brand--alt</code> uses <code>--</code> twice, breaking the separator hierarchy. Flatten instead: <code>bg--brand-alt</code>. The single hyphen within the modifier is the correct pattern.</div>
+        <code>bg--brand--alt</code> uses <code>--</code> twice, breaking the separator hierarchy. Flatten instead: <code>bg--brand-alt</code>. <b>The single hyphen within the modifier is the correct pattern.</b></div>
       </div>
 
       <h3>Examples by Category</h3>
@@ -1211,7 +1212,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
         </div>
       </div>
 
-      <p>FileMaker canvas dimensions and all measurements are expressed in <b>points (pt)</b> — the unit used in FileMaker's Inspector panel when set to Points mode. These standards are adapted from Apple Human Interface Guidelines and Material Design touch target rules, converted to FileMaker's point-based unit system. Desktop and tablet layouts use landscape orientation; phone layouts use portrait.</p>
+      <p>FileMaker canvas dimensions and all measurements are expressed in <strong>points (pt)</strong> — the unit used in FileMaker's Inspector panel when set to Points mode. These standards are adapted from Apple Human Interface Guidelines and Material Design touch target rules, converted to FileMaker's point-based unit system. Desktop and tablet layouts use landscape orientation; phone layouts use portrait.</p>
 
       <div class="callout info">
         <div class="callout-icon">ℹ️</div>
@@ -1250,25 +1251,25 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
           <div class="sizing-card-body">
             <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">16–18pt</span></div>
             <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">12–13pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">9–10pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">10–11pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">10pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11–12pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8–9pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">11pt</span></div>
           </div>
         </div>
         <div class="sizing-card">
           <div class="sizing-card-header">Phone</div>
           <div class="sizing-card-body">
             <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">15–16pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">11–12pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">8–9pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">11pt *</span></div>
+            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">12–13pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">10–11pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">12pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">9pt</span></div>
+            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">12pt</span></div>
           </div>
         </div>
       </div>
-      <p>* Phone button labels hold at 11pt minimum for legibility on small screens.</p>
+      <p>Display headings (H1, H2) compress on smaller screens because canvas width demands it. Body text, labels, and interactive elements hold steady or increase because readability and touch accuracy demand it.</p>
 
       <h3>Touch Targets &amp; Spacing</h3>
       <div class="table-wrap">
@@ -1288,7 +1289,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <div class="callout tip">
         <div class="callout-icon">💡</div>
         <div class="callout-body"><strong>Touch Target Padding</strong>
-        Even if a button visually appears smaller than 33pt tall, its clickable bounds should be padded to meet the 33pt minimum. This is especially important for icon-only buttons and nav bar items in FileMaker Go.</div>
+        Even if a button visually appears smaller than 33pt tall, its clickable bounds should be padded to meet the 33pt minimum. <b>This is especially important for icon-only buttons and nav bar items in FileMaker Go.</b></div>
       </div>
 
       <h3>Layout-Specific Conventions</h3>
@@ -1352,7 +1353,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <div class="callout warn">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body"><strong>No px in FileMaker</strong>
-        FileMaker's Inspector panel accepts dimensions in inches, centimeters, or points only — pixels are not a supported unit. Always convert web design references using the formula above before entering values in FileMaker.</div>
+        FileMaker's Inspector panel accepts dimensions in inches, centimeters, or points only — <b>pixels are not a supported unit.</b> Always convert web design references using the formula above before entering values in FileMaker.</div>
       </div>
 
     </section>
