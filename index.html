@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FileMaker Development Conventions</title>
+<title>FileMaker Naming Conventions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -20,7 +20,7 @@
     --red:        #f87171;
     --text:       #e8e8f0;
     --text2:      #9999b3;
-    --text3:      #66668888;
+    --text3:      #6666888;
     --mono:       'IBM Plex Mono', monospace;
     --sans:       'IBM Plex Sans', sans-serif;
     --display:    'Playfair Display', serif;
@@ -345,7 +345,6 @@
   .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
   .callout-body { font-size: 13.5px; color: var(--text2); }
   .callout-body strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
-  .callout-body b { color: var(--text); font-weight: 600; }
 
   .callout.tip    { background: rgba(52,211,153,0.07); border-color: var(--green); }
   .callout.warn   { background: rgba(240,180,41,0.07); border-color: var(--gold); }
@@ -409,57 +408,6 @@
 
   .pattern-desc { font-size: 13px; color: var(--text2); }
 
-  /* ── SIZING GRID (3-col) ── */
-  .sizing-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin: 16px 0 24px;
-  }
-
-  .sizing-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .sizing-card-header {
-    padding: 10px 14px;
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .sizing-card-body {
-    padding: 14px;
-  }
-
-  .sizing-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 5px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 12.5px;
-  }
-  .sizing-row:last-child { border-bottom: none; }
-
-  .sizing-label {
-    color: var(--text2);
-    font-size: 12px;
-  }
-
-  .sizing-val {
-    font-family: var(--mono);
-    color: var(--green);
-    font-size: 12px;
-  }
-
   /* ── DIVIDER ── */
   hr {
     border: none;
@@ -491,7 +439,6 @@
     .def-grid { grid-template-columns: 1fr; }
     .def-key { border-right: none; border-bottom: 1px solid var(--border); }
     .pattern-row { grid-template-columns: 1fr; }
-    .sizing-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -499,12 +446,12 @@
 
 <!-- HERO -->
 <header class="hero" id="top">
-  <div class="hero-eyebrow">Development Standards · v2.1 · 2026</div>
-  <h1>FileMaker Development Conventions</h1>
-  <p>A unified reference for fields, tables, scripts, layout objects, theme styles, and layout sizing standards — written to keep every solution readable, maintainable, and consistent.</p>
+  <div class="hero-eyebrow">Development Standards · Scripts v2.0 · 2026</div>
+  <h1>FileMaker Naming Conventions</h1>
+  <p>A unified reference for fields, tables, scripts, layout objects, and theme styles — written to keep every solution readable, maintainable, and consistent.</p>
   <div class="hero-meta">
     <span class="hero-badge"><span class="dot"></span> 7 Conventions</span>
-    <span class="hero-badge">Fields · Tables · Scripts · Layouts · Objects · Styles · Sizing</span>
+    <span class="hero-badge">Fields · Tables · Scripts · Layouts · Objects · Value Lists · Styles</span>
   </div>
 </header>
 
@@ -512,24 +459,23 @@
 
   <!-- SIDEBAR -->
   <nav class="sidebar" aria-label="Page navigation">
-    <div class="nav-label">Naming Conventions</div>
-    <a href="#fields"   class="nav-item">01 · Fields</a>
-    <a href="#tables"   class="nav-item">02 · Tables &amp; TOs</a>
-    <a href="#scripts"  class="nav-item">03 · Scripts</a>
-    <a href="#layouts"  class="nav-item">04 · Layouts</a>
-    <a href="#objects"  class="nav-item">05 · Layout Objects</a>
-    <a href="#styles"   class="nav-item">06 · Theme Styles</a>
-    <div class="nav-label">Sizing Standards</div>
-    <a href="#sizing"   class="nav-item">07 · Layout Sizing</a>
+    <div class="nav-label">Conventions</div>
+    <a href="#fields"      class="nav-item">01 · Fields</a>
+    <a href="#tables"      class="nav-item">02 · Tables &amp; TOs</a>
+    <a href="#scripts"     class="nav-item">03 · Scripts</a>
+    <a href="#layouts"     class="nav-item">04 · Layouts</a>
+    <a href="#objects"     class="nav-item">05 · Layout Objects</a>
+    <a href="#valuelists"  class="nav-item">06 · Value Lists</a>
+    <a href="#styles"      class="nav-item">07 · Theme Styles</a>
     <div class="nav-label">Quick Refs</div>
-    <a href="#fields-qr"   class="nav-item nav-sub">Field prefixes</a>
-    <a href="#tables-qr"   class="nav-item nav-sub">TO separators</a>
-    <a href="#scripts-qr"  class="nav-item nav-sub">Script flags</a>
-    <a href="#scripts"     class="nav-item nav-sub">Script structure</a>
-    <a href="#layouts-qr"  class="nav-item nav-sub">Layout patterns</a>
-    <a href="#objects-qr"  class="nav-item nav-sub">Object patterns</a>
-    <a href="#styles-qr"   class="nav-item nav-sub">Style modifiers</a>
-    <a href="#sizing-qr"   class="nav-item nav-sub">Unit conversion</a>
+    <a href="#fields-qr"     class="nav-item nav-sub">Field prefixes</a>
+    <a href="#tables-qr"     class="nav-item nav-sub">TO separators</a>
+    <a href="#scripts-qr"    class="nav-item nav-sub">Script flags</a>
+    <a href="#scripts"       class="nav-item nav-sub">Script structure</a>
+    <a href="#layouts-qr"    class="nav-item nav-sub">Layout patterns</a>
+    <a href="#objects-qr"    class="nav-item nav-sub">Object patterns</a>
+    <a href="#valuelists-qr" class="nav-item nav-sub">Value list flags</a>
+    <a href="#styles-qr"     class="nav-item nav-sub">Style modifiers</a>
   </nav>
 
   <!-- MAIN -->
@@ -596,7 +542,7 @@
       <div class="callout tip">
         <div class="callout-icon">💡</div>
         <div class="callout-body"><strong>Key vs. Reference</strong>
-        <code>zzk__fk_CustomerID</code> is the actual foreign key field. <code>zzg__SelectedCustomer_id</code> is a global that <em>holds</em> a customer key value. <code>pk</code>/<code>fk</code> mean <b>"this IS a key."</b> <code>_id</code> means <b>"this HOLDS a key value."</b></div>
+        <code>zzk__fk_CustomerID</code> is the actual foreign key field. <code>zzg__SelectedCustomer_id</code> is a global that <em>holds</em> a customer key value. <code>pk</code>/<code>fk</code> mean "this IS a key." <code>_id</code> means "this HOLDS a key value."</div>
       </div>
 
       <h3 id="fields-qr">Quick Reference</h3>
@@ -706,7 +652,7 @@
       <div class="callout info">
         <div class="callout-icon">ℹ️</div>
         <div class="callout-body"><strong>Quick Diagnostic</strong>
-        Everything before <code>__</code> tells you the anchor. Everything after, split on single <code>_</code>, gives you the relationship path. A name starting with <code>_</code> and containing no <code>__</code> is an anchor TO. A segment starting with <b>@</b> is an external table.</div>
+        Everything before <code>__</code> tells you the anchor. Everything after, split on single <code>_</code>, gives you the relationship path. A name starting with <code>_</code> and containing no <code>__</code> is an anchor TO. A segment starting with <code>@</code> is an external table.</div>
       </div>
     </section>
 
@@ -750,7 +696,7 @@
       <div class="callout warn">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body"><strong>Formatting Rules</strong>
-        PascalCase throughout — every word in every part of the name begins with a capital letter. The only exceptions are the single-letter flags (<code>p</code>, <code>x</code>, <code>z</code>), which are intentionally lowercase so they stand out as metadata. <b>No spaces anywhere in the script name.</b></div>
+        PascalCase throughout — every word in every part of the name begins with a capital letter. The only exceptions are the single-letter flags (<code>p</code>, <code>x</code>, <code>z</code>), which are intentionally lowercase so they stand out as metadata. No spaces anywhere in the script name.</div>
       </div>
 
       <h3 id="scripts-qr">Suffix Flags</h3>
@@ -784,7 +730,7 @@
 
       <div class="callout tip">
         <div class="callout-icon">💡</div>
-        <div class="callout-body"><strong>Trigger scripts</strong> (OnLayoutEnter, OnRecordLoad, etc.) live in a <code>Triggers</code> folder and get <b>no flag</b>. Their folder location signals that FileMaker's trigger system calls them — not developers directly.</div>
+        <div class="callout-body"><strong>Trigger scripts</strong> (OnLayoutEnter, OnRecordLoad, etc.) live in a <code>Triggers</code> folder and get <strong>no flag</strong>. Their folder location signals that FileMaker's trigger system calls them — not developers directly.</div>
       </div>
 
       <h3>Approved Verb List</h3>
@@ -797,13 +743,13 @@
 <span class="c-key">Sort</span>    <span class="c-key">Empty</span></pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-label">UI &amp; Navigation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <div class="code-header"><span class="code-label">UI & Navigation</span><div class="code-dots"><span></span><span></span><span></span></div></div>
         <pre><span class="c-key">Navigate</span> <span class="c-key">Open</span>    <span class="c-key">Close</span>   <span class="c-key">Show</span>    <span class="c-key">Hide</span>    <span class="c-key">Toggle</span>
 <span class="c-key">Refresh</span>  <span class="c-key">Resize</span>  <span class="c-key">Maximize</span> <span class="c-key">Rename</span> <span class="c-key">Print</span>   <span class="c-key">Send</span>
 <span class="c-key">Zoom</span></pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-label">Process &amp; Lifecycle</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <div class="code-header"><span class="code-label">Process & Lifecycle</span><div class="code-dots"><span></span><span></span><span></span></div></div>
         <pre><span class="c-key">Initialize</span> <span class="c-key">Process</span>  <span class="c-key">Format</span>  <span class="c-key">Reset</span>     <span class="c-key">Clear</span>  <span class="c-key">Undo</span>
 <span class="c-key">Handle</span>     <span class="c-key">Evaluate</span> <span class="c-key">Assign</span>  <span class="c-key">Ping</span>      <span class="c-key">Resequence</span>
 <span class="c-key">Capture</span>    <span class="c-key">Mark</span>     <span class="c-key">Perform</span></pre>
@@ -811,7 +757,7 @@
       <div class="callout danger">
         <div class="callout-icon">🚫</div>
         <div class="callout-body"><strong>Deprecated — Do Not Use</strong>
-        <code>GO TO</code> → use <b>Navigate</b> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <b>Get</b> or <b>Retrieve</b> &nbsp;|&nbsp; <code>Display</code> → use <b>Show</b> &nbsp;|&nbsp; <code>RUN</code> → use <b>Process</b> or <b>Perform</b> &nbsp;|&nbsp; <code>Unsort</code> → use <b>ClearSort</b> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
+        <code>GO TO</code> → use <code>Navigate</code> &nbsp;|&nbsp; <code>Fetch</code> / <code>Load</code> → use <code>Get</code> or <code>Retrieve</code> &nbsp;|&nbsp; <code>Display</code> → use <code>Show</code> &nbsp;|&nbsp; <code>RUN</code> → use <code>Process</code> or <code>Perform</code> &nbsp;|&nbsp; <code>Unsort</code> → use <code>ClearSort</code> &nbsp;|&nbsp; <code>New</code> with <code>Create</code> → redundant, drop it.</div>
       </div>
 
       <h3>Qualifier Types</h3>
@@ -877,7 +823,7 @@
       <div class="callout tip">
         <div class="callout-icon">💡</div>
         <div class="callout-body"><strong>Exemptions</strong>
-        The <b>Scripts Menu folder</b> is fully exempt — names there are user-facing and do not need to be URL-safe. Add-on scripts are exempt from module naming, but custom scripts added to an add-on folder follow the convention.</div>
+        The <strong>Scripts Menu folder</strong> is fully exempt — names there are user-facing and do not need to be URL-safe. Add-on scripts are exempt from module naming, but custom scripts added to an add-on folder follow the convention.</div>
       </div>
     </section>
 
@@ -1045,7 +991,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <p>An element belongs to and only makes sense inside its block. Use names that describe <em>purpose or role</em>, not appearance.</p>
       <div class="callout tip">
         <div class="callout-icon">💡</div>
-        <div class="callout-body">Prefer <code>sidebar__divider</code> (describes role) over <code>sidebar__gray-line</code> (describes appearance). <b>Appearance-based names break when the design changes.</b></div>
+        <div class="callout-body">Prefer <code>sidebar__divider</code> (describes role) over <code>sidebar__gray-line</code> (describes appearance). Appearance-based names break when the design changes.</div>
       </div>
 
       <h3>Semantic vs. Instance Modifiers</h3>
@@ -1084,13 +1030,141 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
     </section>
 
     <!-- ══════════════════════════════════════════
-         06  THEME STYLES
+         06  VALUE LISTS
+    ══════════════════════════════════════════ -->
+    <section class="section" id="valuelists">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div class="section-title-wrap">
+          <div class="section-tag">Convention 06</div>
+          <h2 class="section-title">Value Lists</h2>
+        </div>
+      </div>
+
+      <p>Value list names encode two things: the table that owns the list, and the source type — whether values are typed in directly, pulled from a field, or drawn from a two-field related pair. This makes the list's nature clear at a glance in Manage Value Lists, in scripts, and in field definitions, without needing to open the definition to understand what you're looking at.</p>
+
+      <h3>Structure</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Anatomy</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-key">TableName</span><span class="c-op">__</span><span class="c-val">ListName</span><span class="c-op">--</span><span class="c-comment">type</span>
+
+<span class="c-comment">TableName  →  The table that owns or contextualises this list</span>
+<span class="c-comment">__         →  Major boundary: separates scope from list name</span>
+<span class="c-comment">ListName   →  PascalCase descriptive name of what the list contains</span>
+<span class="c-comment">--         →  Minor boundary: attaches the source type flag</span>
+<span class="c-comment">type       →  Single lowercase letter: s, f, or r  (see flags below)</span>
+
+<span class="c-comment">Cross-table shared lists use Shared as the table prefix:</span>
+<span class="c-key">Shared</span><span class="c-op">__</span><span class="c-val">ListName</span><span class="c-op">--</span><span class="c-comment">type</span></pre>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body"><strong>Separator consistency</strong>
+        The <code>__</code> and <code>--</code> separators carry the same meaning they do everywhere else in this convention system. <code>__</code> is a major boundary (scope → name); <code>--</code> attaches metadata. Source type flags are single lowercase letters — intentionally metadata, not content — matching the pattern established by script flags.</div>
+      </div>
+
+      <h3 id="valuelists-qr">Source Type Flags</h3>
+      <p>The flag answers one question: <em>"What do I need to change if this list needs to change?"</em></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Flag</th><th>Type</th><th>Source</th><th>To change it…</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>--s</td>
+              <td>Static</td>
+              <td>Custom values typed directly into the list definition.</td>
+              <td>Open Manage Value Lists and edit the values.</td>
+            </tr>
+            <tr>
+              <td>--f</td>
+              <td>Field</td>
+              <td>Values sourced from a single field on a table occurrence.</td>
+              <td>Change the TO or field pairing in the list definition.</td>
+            </tr>
+            <tr>
+              <td>--r</td>
+              <td>Related</td>
+              <td>Two-field list — one field stored, one field displayed.</td>
+              <td>Adjust both fields and potentially the underlying relationship.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Static Lists <code class="c-comment" style="font-size:11px;background:none;border:none;padding:0">--s</code></h3>
+      <p>Used for fixed, developer-maintained sets of values. The list name describes what the values represent, not how many there are or what they literally say. Changing a static list means opening the definition and editing values directly — no relationship or field change is involved.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Invoices</span><span class="c-op">__</span><span class="c-key">Status</span><span class="c-op">--</span><span class="c-comment">s</span>            <span class="c-comment">← Draft / Sent / Paid / Overdue / Void</span>
+<span class="c-val">Invoices</span><span class="c-op">__</span><span class="c-key">PaymentMethod</span><span class="c-op">--</span><span class="c-comment">s</span>     <span class="c-comment">← Cash / Check / Credit Card / ACH</span>
+<span class="c-val">Contacts</span><span class="c-op">__</span><span class="c-key">Type</span><span class="c-op">--</span><span class="c-comment">s</span>             <span class="c-comment">← Client / Vendor / Partner / Internal</span>
+<span class="c-val">Projects</span><span class="c-op">__</span><span class="c-key">Status</span><span class="c-op">--</span><span class="c-comment">s</span>            <span class="c-comment">← Active / On Hold / Complete / Cancelled</span>
+<span class="c-val">Tasks</span><span class="c-op">__</span><span class="c-key">Priority</span><span class="c-op">--</span><span class="c-comment">s</span>             <span class="c-comment">← Low / Medium / High / Critical</span></pre>
+      </div>
+
+      <h3>Field-Based Lists <code class="c-comment" style="font-size:11px;background:none;border:none;padding:0">--f</code></h3>
+      <p>Used when list values are sourced from a field on a table occurrence — typically a lookup of all values in a field across records. The list name describes what the user selects, not the technical field name. The specific TO and field pairing lives in the definition, not the name.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Contacts</span><span class="c-op">__</span><span class="c-key">Country</span><span class="c-op">--</span><span class="c-comment">f</span>           <span class="c-comment">← country names from a TO field</span>
+<span class="c-val">Contacts</span><span class="c-op">__</span><span class="c-key">State</span><span class="c-op">--</span><span class="c-comment">f</span>             <span class="c-comment">← state values from a TO field</span>
+<span class="c-val">Products</span><span class="c-op">__</span><span class="c-key">Category</span><span class="c-op">--</span><span class="c-comment">f</span>          <span class="c-comment">← product categories from a TO field</span>
+<span class="c-val">Projects</span><span class="c-op">__</span><span class="c-key">AssignedTo</span><span class="c-op">--</span><span class="c-comment">f</span>        <span class="c-comment">← employee names from a TO field</span>
+<span class="c-val">LineItems</span><span class="c-op">__</span><span class="c-key">ProductName</span><span class="c-op">--</span><span class="c-comment">f</span>      <span class="c-comment">← product names from a TO field</span></pre>
+      </div>
+
+      <h3>Related (Two-Field) Lists <code class="c-comment" style="font-size:11px;background:none;border:none;padding:0">--r</code></h3>
+      <p>Used when the stored value and the displayed value are different fields — the classic ID-stored, name-displayed pattern. The list name describes what the user sees and selects, not what gets stored. Changing this type requires adjusting both the display field and potentially the underlying relationship.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Invoices</span><span class="c-op">__</span><span class="c-key">Product</span><span class="c-op">--</span><span class="c-comment">r</span>           <span class="c-comment">← stores ProductID, displays ProductName</span>
+<span class="c-val">Invoices</span><span class="c-op">__</span><span class="c-key">Client</span><span class="c-op">--</span><span class="c-comment">r</span>            <span class="c-comment">← stores ClientID, displays ClientName</span>
+<span class="c-val">Projects</span><span class="c-op">__</span><span class="c-key">Client</span><span class="c-op">--</span><span class="c-comment">r</span>            <span class="c-comment">← stores ClientID, displays ClientName</span>
+<span class="c-val">Tasks</span><span class="c-op">__</span><span class="c-key">Assignee</span><span class="c-op">--</span><span class="c-comment">r</span>             <span class="c-comment">← stores EmployeeID, displays EmployeeName</span>
+<span class="c-val">Contacts</span><span class="c-op">__</span><span class="c-key">SalesRep</span><span class="c-op">--</span><span class="c-comment">r</span>          <span class="c-comment">← stores SalesRepID, displays SalesRepName</span></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body"><strong>Implementation goes in the definition, not the name</strong>
+        For <code>--f</code> and <code>--r</code> lists, the specific TO and field names belong in the value list definition itself — not encoded in the list name. This matches the principle established by script naming: names tell you <em>what</em>, definitions tell you <em>how</em>.</div>
+      </div>
+
+      <h3>Shared Lists</h3>
+      <p>Some lists have no single table owner — they're reused across multiple contexts and contain values that belong to the solution as a whole. These use <code>Shared</code> as the table prefix. <code>Shared</code> describes scope (cross-table), not content, and avoids the FileMaker-specific meaning of "Global" while staying readable to any developer picking up the file.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">Examples</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+        <pre><span class="c-val">Shared</span><span class="c-op">__</span><span class="c-key">YesNo</span><span class="c-op">--</span><span class="c-comment">s</span>              <span class="c-comment">← Yes / No</span>
+<span class="c-val">Shared</span><span class="c-op">__</span><span class="c-key">Boolean</span><span class="c-op">--</span><span class="c-comment">s</span>             <span class="c-comment">← True / False</span>
+<span class="c-val">Shared</span><span class="c-op">__</span><span class="c-key">Priority</span><span class="c-op">--</span><span class="c-comment">s</span>            <span class="c-comment">← Low / Medium / High / Critical</span>
+<span class="c-val">Shared</span><span class="c-op">__</span><span class="c-key">Months</span><span class="c-op">--</span><span class="c-comment">s</span>              <span class="c-comment">← January through December</span>
+<span class="c-val">Shared</span><span class="c-op">__</span><span class="c-key">Days</span><span class="c-op">--</span><span class="c-comment">s</span>                <span class="c-comment">← Monday through Sunday</span>
+<span class="c-val">Shared</span><span class="c-op">__</span><span class="c-key">Country</span><span class="c-op">--</span><span class="c-comment">s</span>             <span class="c-comment">← country list used across multiple tables</span></pre>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body"><strong>When to promote a list to Shared</strong>
+        Start with a table-prefixed list. If the same list is later reused by a second table, rename it to <code>Shared__</code> and update all references. Don't start with <code>Shared__</code> speculatively — own your lists until they earn the shared prefix.</div>
+      </div>
+
+      <h3>Naming Rules Summary</h3>
+      <p><strong>1. Always lead with table name.</strong> Lists group by table in sorted views, making Manage Value Lists scannable at a glance. Use <code>Shared__</code> only for genuinely cross-table lists.</p>
+      <p><strong>2. Always append a source type flag.</strong> <code>--s</code>, <code>--f</code>, or <code>--r</code> tells you instantly what kind of change is required if the list needs updating.</p>
+      <p><strong>3. Name for what the user selects, not the field or stored value.</strong> <code>Invoices__Client--r</code> not <code>Invoices__ClientID--r</code>. The stored value is an implementation detail.</p>
+      <p><strong>4. PascalCase for both table name and list name.</strong> No spaces anywhere. Consistent with all other conventions in this system.</p>
+      <p><strong>5. The definition is the documentation.</strong> TO names, field pairings, and relationship details belong in the value list definition — not encoded into the name.</p>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         07  THEME STYLES
     ══════════════════════════════════════════ -->
     <section class="section" id="styles">
       <div class="section-header">
         <div class="section-icon">🎨</div>
         <div class="section-title-wrap">
-          <div class="section-tag">Convention 06</div>
+          <div class="section-tag">Convention 07</div>
           <h2 class="section-title">Theme Styles</h2>
         </div>
       </div>
@@ -1156,7 +1230,7 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <div class="callout danger">
         <div class="callout-icon">🚫</div>
         <div class="callout-body"><strong>Avoid Double Modifiers</strong>
-        <code>bg--brand--alt</code> uses <code>--</code> twice, breaking the separator hierarchy. Flatten instead: <code>bg--brand-alt</code>. <b>The single hyphen within the modifier is the correct pattern.</b></div>
+        <code>bg--brand--alt</code> uses <code>--</code> twice, breaking the separator hierarchy. Flatten instead: <code>bg--brand-alt</code>. The single hyphen within the modifier is the correct pattern.</div>
       </div>
 
       <h3>Examples by Category</h3>
@@ -1198,164 +1272,6 @@ All segments <span class="c-key">lowercase</span>. Words within a segment separa
       <p><strong>3. Depth limit: block__element--modifier only.</strong> Do not go beyond three segments. <code>prt__leading-grand-summary--brand</code> is acceptable. <code>prt__header__label--brand--active</code> is too deep.</p>
       <p><strong>4. One modifier per <code>--</code> separator.</strong> Flatten compound modifiers with a single hyphen: <code>--ruled-alt</code>, not <code>--ruled--alt</code>.</p>
       <p><strong>5. Document your vocabulary.</strong> Maintain a reference list of approved blocks, elements, and modifiers so the convention stays consistent as the theme grows.</p>
-    </section>
-
-    <!-- ══════════════════════════════════════════
-         07  LAYOUT SIZING STANDARDS
-    ══════════════════════════════════════════ -->
-    <section class="section" id="sizing">
-      <div class="section-header">
-        <div class="section-icon">📏</div>
-        <div class="section-title-wrap">
-          <div class="section-tag">Standard 07</div>
-          <h2 class="section-title">Layout Sizing Standards</h2>
-        </div>
-      </div>
-
-      <p>FileMaker canvas dimensions and all measurements are expressed in <strong>points (pt)</strong> — the unit used in FileMaker's Inspector panel when set to Points mode. These standards are adapted from Apple Human Interface Guidelines and Material Design touch target rules, converted to FileMaker's point-based unit system. Desktop and tablet layouts use landscape orientation; phone layouts use portrait.</p>
-
-      <div class="callout info">
-        <div class="callout-icon">ℹ️</div>
-        <div class="callout-body"><strong>pt ≠ px</strong>
-        1pt = 1.333px. To convert web/RWD pixel values to FileMaker points: <b>pt = px × 0.75</b>. The most important conversion: the standard 44px touch target minimum becomes <b>33pt</b> in FileMaker.</div>
-      </div>
-
-      <h3>Canvas Dimensions</h3>
-      <p>FileMaker Go does not reflow layouts — canvas size is your breakpoint decision. Design three separate layout families and route users at startup.</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Target</th><th>Orientation</th><th>Width</th><th>Height</th></tr></thead>
-          <tbody>
-            <tr><td>Desktop</td><td>Landscape</td><td>960pt</td><td>600pt</td></tr>
-            <tr><td>Tablet (iPad)</td><td>Landscape</td><td>768pt</td><td>576pt</td></tr>
-            <tr><td>Phone (iPhone)</td><td>Portrait</td><td>293pt</td><td>633pt</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>Typography Scale</h3>
-      <div class="sizing-grid">
-        <div class="sizing-card">
-          <div class="sizing-card-header">Desktop</div>
-          <div class="sizing-card-body">
-            <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">18–21pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">13–15pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">10pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11–12pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8–9pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">11pt</span></div>
-          </div>
-        </div>
-        <div class="sizing-card">
-          <div class="sizing-card-header">Tablet</div>
-          <div class="sizing-card-body">
-            <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">16–18pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">12–13pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">10pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">11–12pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">8–9pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">11pt</span></div>
-          </div>
-        </div>
-        <div class="sizing-card">
-          <div class="sizing-card-header">Phone</div>
-          <div class="sizing-card-body">
-            <div class="sizing-row"><span class="sizing-label">Screen Title / H1</span><span class="sizing-val">15–16pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Section Header / H2</span><span class="sizing-val">12–13pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Label</span><span class="sizing-val">10–11pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Field Value / Body</span><span class="sizing-val">12pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Secondary / Caption</span><span class="sizing-val">9pt</span></div>
-            <div class="sizing-row"><span class="sizing-label">Button Label</span><span class="sizing-val">12pt</span></div>
-          </div>
-        </div>
-      </div>
-      <p>Display headings (H1, H2) compress on smaller screens because canvas width demands it. Body text, labels, and interactive elements hold steady or increase because readability and touch accuracy demand it.</p>
-
-      <h3>Touch Targets &amp; Spacing</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Element</th><th>Desktop</th><th>Tablet</th><th>Phone</th></tr></thead>
-          <tbody>
-            <tr><td>Min button height</td><td>21–24pt</td><td>30pt</td><td>33pt</td></tr>
-            <tr><td>Min tap target area</td><td>—</td><td>33×33pt</td><td>33×33pt</td></tr>
-            <tr><td>Field row height</td><td>18–21pt</td><td>27–30pt</td><td>33pt</td></tr>
-            <tr><td>Portal row height</td><td>18–23pt</td><td>29–33pt</td><td>38–42pt</td></tr>
-            <tr><td>Section padding</td><td>12–15pt</td><td>12pt</td><td>9–12pt</td></tr>
-            <tr><td>Gutter / margin</td><td>15pt</td><td>12pt</td><td>9pt</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="callout tip">
-        <div class="callout-icon">💡</div>
-        <div class="callout-body"><strong>Touch Target Padding</strong>
-        Even if a button visually appears smaller than 33pt tall, its clickable bounds should be padded to meet the 33pt minimum. <b>This is especially important for icon-only buttons and nav bar items in FileMaker Go.</b></div>
-      </div>
-
-      <h3>Layout-Specific Conventions</h3>
-
-      <p><strong>Desktop</strong> — Persistent left sidebar or top tab bar navigation. Card windows are appropriate for modals, pickers, and sub-forms. Two- and three-column portal/list views are suitable.</p>
-
-      <p><strong>Tablet (Landscape)</strong> — Treat as a constrained desktop. Top nav bar or slim sidebar works well. Avoid small controls — fingers are in play even with a keyboard attached. Card windows should stay no wider than ~80% of canvas.</p>
-
-      <p><strong>Phone (Portrait)</strong> — Single-column layouts only. No horizontal-scrolling portals. Bottom-anchored nav bars feel native in FileMaker Go. Use popover buttons and collapsible sections for secondary content.</p>
-
-      <h3>Fonts</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Use</th><th>Mac / Desktop</th><th>Go (iOS)</th></tr></thead>
-          <tbody>
-            <tr><td>UI / Labels</td><td>Helvetica Neue or system</td><td>SF Pro (via "System Font")</td></tr>
-            <tr><td>Monospace</td><td>Menlo</td><td>Menlo</td></tr>
-            <tr><td>Avoid</td><td>Decorative web fonts</td><td>Anything not bundled with iOS</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>Device Detection Script</h3>
-      <p>Use at startup to route users to the appropriate layout family based on platform and window width.</p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-label">Startup — Route to Device Layout</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <pre><span class="c-comment">// Startup — Route to Device Layout</span>
-<span class="c-key">If</span> [ Get(SystemPlatform) = 3 <span class="c-op">or</span> Get(SystemPlatform) = -3 ]
-    <span class="c-comment">// iOS (FileMaker Go)</span>
-    <span class="c-key">If</span> [ Get(WindowWidth) >= 700 ]
-        <span class="c-comment">// Tablet — landscape</span>
-        Go to Layout [ <span class="c-val">"Home [ tablet ]"</span> ]
-    <span class="c-key">Else</span>
-        <span class="c-comment">// Phone — portrait</span>
-        Go to Layout [ <span class="c-val">"Home [ phone ]"</span> ]
-    <span class="c-key">End If</span>
-<span class="c-key">Else</span>
-    <span class="c-comment">// Desktop (Mac or Windows)</span>
-    Go to Layout [ <span class="c-val">"Home [ desktop ]"</span> ]
-<span class="c-key">End If</span></pre>
-      </div>
-
-      <h3 id="sizing-qr">Unit Conversion Reference</h3>
-      <p>Formula: <strong>pt = px × 0.75</strong> &nbsp;·&nbsp; <strong>px = pt × 1.333</strong></p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Web / RWD (px)</th><th>FileMaker (pt)</th><th>Common Use</th></tr></thead>
-          <tbody>
-            <tr><td>12px</td><td>9pt</td><td>Small label / caption baseline</td></tr>
-            <tr><td>16px</td><td>12pt</td><td>Web body text default</td></tr>
-            <tr><td>44px</td><td>33pt</td><td>Touch target minimum (Apple HIG)</td></tr>
-            <tr><td>375px</td><td>281pt</td><td>iPhone SE / older canvas width</td></tr>
-            <tr><td>390px</td><td>293pt</td><td>iPhone 14/15 canvas width</td></tr>
-            <tr><td>768px</td><td>576pt</td><td>iPad landscape canvas height</td></tr>
-            <tr><td>1024px</td><td>768pt</td><td>iPad landscape canvas width</td></tr>
-            <tr><td>1280px</td><td>960pt</td><td>Desktop canvas width</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="callout warn">
-        <div class="callout-icon">⚠️</div>
-        <div class="callout-body"><strong>No px in FileMaker</strong>
-        FileMaker's Inspector panel accepts dimensions in inches, centimeters, or points only — <b>pixels are not a supported unit.</b> Always convert web design references using the formula above before entering values in FileMaker.</div>
-      </div>
-
     </section>
 
   </main>
